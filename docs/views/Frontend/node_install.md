@@ -52,7 +52,7 @@ yarn upgrade-interactive --latest
 需要手动选择升级的依赖包，按空格键选择，a 键切换所有，i 键反选选择。
 
 
-# 安装 node-sass 的 bug 解决
+## 安装 node-sass 的 bug 解决
 
 Yarn 淘宝源安装，分别复制粘贴以下代码行到黑窗口运行即可
 
