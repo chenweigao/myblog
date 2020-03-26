@@ -27,7 +27,8 @@ module.exports = {
           '*': '\\times',
         },
       },
-      '@vuepress/active-header-links'
+      '@vuepress/active-header-links',
+      '@vuepress-reco/extract-code'
     ],
   ],
   "theme": "reco",
@@ -49,34 +50,14 @@ module.exports = {
         "icon": "reco-message",
         "items": [
           {
-            "text": "NPM",
-            "link": "https://www.npmjs.com/~reco_luan",
-            "icon": "reco-npm"
+            "text": "Email",
+            "link": "mailto:mail@weigao.cc",
+            "icon": "reco-mail"
           },
           {
             "text": "GitHub",
             "link": "https://github.com/chenweigao",
             "icon": "reco-github"
-          },
-          {
-            "text": "简书",
-            "link": "https://www.jianshu.com/u/cd674a19515e",
-            "icon": "reco-jianshu"
-          },
-          {
-            "text": "CSDN",
-            "link": "https://blog.csdn.net/recoluan",
-            "icon": "reco-csdn"
-          },
-          {
-            "text": "博客圆",
-            "link": "https://www.cnblogs.com/luanhewei/",
-            "icon": "reco-bokeyuan"
-          },
-          {
-            "text": "WeChat",
-            "link": "https://mp.weixin.qq.com/s/mXFqeUTegdvPliXknAAG_A",
-            "icon": "reco-wechat"
           }
         ]
       }
@@ -94,9 +75,9 @@ module.exports = {
     },
     "friendLink": [
       {
-        "title": "午后南杂",
-        "desc": "Enjoy when you can, and endure when you must.",
-        "email": "1156743527@qq.com",
+        "title": "weigao-blog",
+        "desc": "上个版本的博客，疏于维护",
+        "email": "mail@weigao.cc",
         "link": "https://www.recoluan.com"
       },
       {
@@ -113,7 +94,7 @@ module.exports = {
     "lastUpdated": "Last Updated",
     "author": "weigaochen",
     "authorAvatar": "/avatar.png",
-    "record": "xxxx",
+    "record": "Huawei Cloud & Xidian University",
     "startYear": "2017"
   },
   "markdown": {

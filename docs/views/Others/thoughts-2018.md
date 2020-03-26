@@ -1,12 +1,13 @@
 ---
-title: 2018 日常感悟
+title: 日常感悟
 date: 2018-1-5
 tags:
  - thoughts
 categories:
  -  Others
 keys:
- - '950906'
+ - '578631217db13b23c595f24a2587b4f3'
+sidebar: false
 ---
 
 ## 2018
@@ -34,3 +35,9 @@ This is my personal thoughts.
 ### 2019-1-24
 
 尽量少的在博客里贴代码，多写一写文字感悟类的。
+
+## 2020
+
+### 2020年3月26日
+
+今天写了博客的新版本，还不错

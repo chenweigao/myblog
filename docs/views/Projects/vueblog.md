@@ -1,11 +1,12 @@
 ---
-title: Vuepress Blog
+title: Vuepress Blog Guide
 date: 2018-5-10
 tags:
  - vue.js
  - blog
 categories:
  - Projects
+sticky: 2
 ---
 
 :::tip Reference
@@ -131,29 +132,6 @@ Usng Aliyun icon in vueblog project:
 <Badge text="0.10.1+" type="tip"/>
 ```
 
-## Code Collapsing
-
-The `<details> <summary></summary> </details>` are from HTML5:
-
-<details>
-<summary>inline使用</summary>
-
-```cpp
-// code
-```
-
-</details>
-
-Source code is:
-
-```html
-<details><summary>inline 使用</summary>
-
-//code block
-
-</details>
-```
-
 ## Markdown extend
 
 ### LeTex Formula
@@ -221,3 +199,71 @@ this is a tab
 ### Asset Handing/image
 
 将图片放置于 `.vuepress/public` 目录下，然后引用 `![Image](/imagename.type)`.
+
+## 引入代码块的方法
+
+1. 引入默认折叠的代码块
+
+```md
+<RecoDemo :collapse="false">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/dfs.py
+</template>
+</RecoDemo>
+```
+
+2. 引入默认展开的代码块
+
+```md
+<RecoDemo :collapse="true">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/dfs.py
+</template>
+</RecoDemo>
+```
+
+更多的折叠方式可以参考[官方文档](https://vuepress-theme-reco.recoluan.com/views/plugins/extractCode.html)
+
+
+## 代码块折叠
+
+The `<details> <summary></summary> </details>` are from HTML5:
+
+<details>
+<summary>inline使用</summary>
+
+```cpp
+// code
+```
+
+</details>
+
+Source code is:
+
+```html
+<details><summary>inline 使用</summary>
+
+//code block
+
+</details>
+```
+
+## 格式化文件标准
+
+```md
+---
+title: 烤鸭的做法
+date: 2019-08-08
+sidebar: 'auto'
+categories:
+ - 烹饪
+ - 爱好
+tags:
+ - 烤
+ - 鸭子
+keys:
+ - '123456' 注意这里用加密文
+publish: false
+sticky: 2
+---
+```

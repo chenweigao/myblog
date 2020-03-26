@@ -19,7 +19,7 @@ virtualenv -p python3 envname
 
 启动使用：
 
-```
+```bash
 source racv/bin/activate
 ```
 

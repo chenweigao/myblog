@@ -5,6 +5,8 @@ tags:
  - codelife
 categories:
  -  Others
+publish: false
+
 ---
 
 ::: vue

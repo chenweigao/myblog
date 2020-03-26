@@ -5,6 +5,8 @@ tags:
  - python
 categories:
  -  Others
+sticky: 1
+sidebar: false
 ---
 
 By Tim Peters
