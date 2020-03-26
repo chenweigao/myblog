@@ -38,7 +38,9 @@ categories:
 
 `Options—> Configure Texstudio —> General—> Language—> zh_CN` 设置中文。
 
-## LaTex File Struct
+但是 TeXStdio 并不是很好用，所以一般还是使用 WinEdt。
+
+## LaTex 项目结构
 
 LaTex 通过 `.cls` 和 `.sty` 来控制样式，类似于网页中的 css 一样，再经过 Tex 引擎渲染成 PDF。
 
@@ -61,11 +63,7 @@ LaTex 有宏包的概念，引入方式为 `\usepackage{foo}`, 可以类比于 C
 本文为CSDN博主「Mikchy」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
 原文链接：[https://blog.csdn.net/Mikchy/article/details/94448707](https://blog.csdn.net/Mikchy/article/details/94448707)
 
-## Hello World of Ctex
-
-暂时没有
-
-## LaTex Formual
+## LaTex Formual 公式
 
 ### 矩阵转置
 
@@ -76,3 +74,7 @@ LaTex 有宏包的概念，引入方式为 `\usepackage{foo}`, 可以类比于 C
 效果如下：
 
 $$\mathbf{h_1}^\mathrm{T} \mathbf{A}^\mathrm{-T} \mathbf{A}^\mathrm{-1} = 0$$
+
+### Tools
+
+可以使用软件**Mathpix Snipping Tool**将截图转化为 latex 公式，十分方便。

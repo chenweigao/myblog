@@ -7,7 +7,7 @@ module.exports = {
       "link",
       {
         "rel": "icon",
-        "href": "/favicon.ico"
+        "href": "/favicon.png"
       }
     ],
     [
@@ -17,6 +17,17 @@ module.exports = {
         "content": "width=device-width,initial-scale=1,user-scalable=no"
       }
     ]
+  ],
+  plugins: [
+    [
+      'vuepress-plugin-mathjax',
+      {
+        target: 'svg',
+        macros: {
+          '*': '\\times',
+        },
+      },
+    ],
   ],
   "theme": "reco",
   "themeConfig": {
@@ -43,7 +54,7 @@ module.exports = {
           },
           {
             "text": "GitHub",
-            "link": "https://github.com/recoluan",
+            "link": "https://github.com/chenweigao",
             "icon": "reco-github"
           },
           {

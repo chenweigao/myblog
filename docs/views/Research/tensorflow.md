@@ -7,6 +7,7 @@ tags:
  - deeplearning
 categories:
  - Research
+publish: false
 ---
 
 Tensorflow中一些简单但是容易忘记的：

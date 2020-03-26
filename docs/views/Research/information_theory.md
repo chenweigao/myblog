@@ -1,13 +1,11 @@
 ---
-title: Information and Theory
+title: Information and Theory - An improved mOPE coding method
 date: 2018-6-10
 tags:
  - paper
 categories:
  - Research
 ---
-
-An improved mOPE coding method
 
 ## Abstrcat
 
