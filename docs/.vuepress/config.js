@@ -28,7 +28,7 @@ module.exports = {
         },
       },
       '@vuepress/active-header-links',
-      '@vuepress-reco/extract-code'
+      '@vuepress-reco/extract-code',
     ],
   ],
   "theme": "reco",

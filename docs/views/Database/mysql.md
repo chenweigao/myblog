@@ -81,7 +81,7 @@ ON table_name1.column_name=table_name2.column_name
 
 <RecoDemo :collapse="true">
 <template slot="code-sql">
-  <<< @/docs/.vuepress/code/DAG.sql
+  <<< @/docs/.vuepress/code/sql/DAG.sql
 </template>
 </RecoDemo>
 

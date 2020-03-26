@@ -36,6 +36,6 @@ categories:
 
 <RecoDemo :collapse="true">
 <template slot="code-python">
-  <<< @/docs/.vuepress/code/dfs.py
+  <<< @/docs/.vuepress/code/algorithm/dfs.py
 </template>
 </RecoDemo>

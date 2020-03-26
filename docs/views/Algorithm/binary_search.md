@@ -61,18 +61,11 @@ function binary_search(A, n, T):
 
 二分查找有序序列中某个元素的位置，如果没找到，则返回其需要插入的位置(LC 035):
 
-```py
-def binarySearch(nums, target):
-    l, r = 0, len(nums) - 1
-
-    while l <= r:
-        mid = (l + r) // 2
-        if nums[mid] < target:
-            l = mid + 1
-        else:
-            r = mid - 1
-    return l
-```
+<RecoDemo :collapse="false">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/algorithm/binarySearch.py
+</template>
+</RecoDemo>
 
 ### bisect
 
@@ -109,26 +102,11 @@ round(2.6) # 3 四舍五入
 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。
 请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
 
-```py
-def find_in_array_binary_search(self, alist, target) -> bool:
-"""
-利用二分查找的思想：
-需要遍历每一行得到最后的答案，这个操作顺便复习一下二分查找
-"""
-for i in range(len(alist)):
-    l = 0
-    r = len(alist[i]) - 1
-    while l <= r:
-        mid = (l + r) // 2
-        # mid = l + (r - l) // 2
-        if target < alist[i][mid]:
-            l = mid + 1
-        elif target > alist[i][mid]:
-            r = mid - 1
-        else:
-            return True
-return False
-```
+<RecoDemo :collapse="false">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/algorithm/find_in_array.py
+</template>
+</RecoDemo>
 
 注意到这里用到了先小(<)后大(>), 先左(l)后右的口诀。
 
@@ -136,22 +114,11 @@ return False
 
 使用二分查找判断某个数是否完全平方数：
 
-```py
-def isPerfectSquare(self, num: int) -> bool:
-    '''
-    using binary search
-    '''
-    l, r = 0, num
-    while l <= r:
-        mid = (l + r) // 2
-        if mid * mid == num:
-            return True
-        elif mid * mid < num:
-            l = mid + 1
-        else:
-            r = mid - 1
-    return False
-```
+<RecoDemo :collapse="false">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/algorithm/isPerfectSquare.py
+</template>
+</RecoDemo>
 
 ### 数字在排序数组中出现的次数
 
@@ -161,33 +128,11 @@ def isPerfectSquare(self, num: int) -> bool:
 
 这个题目对查找插入位置的概念进行了强化：
 
-```py
-class Solution:
-    def GetNumberOfK(self, data, k):
-        start = self.get_start(data, k)
-        end = self.get_end(data, k)
-        return end - start
-
-    def get_start(self, data, k):
-        l, r = 0, len(data) - 1
-        while l <= r:
-            mid = (l + r) // 2
-            if data[mid] < k:
-                l = mid + 1
-            else:
-                r = mid - 1
-        return l
-
-    def get_end(self, data, k):
-        l, r = 0, len(data) - 1
-        while l <= r:
-            mid = (l + r) // 2
-            if data[mid] <= k:
-                l = mid + 1
-            else:
-                r = mid - 1
-        return l
-```
+<RecoDemo :collapse="false">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/algorithm/get_number_of_k.py
+</template>
+</RecoDemo>
 
 ### Find Peak Element - 寻找峰值
 
@@ -199,37 +144,11 @@ class Solution:
 >
 > 解释: 你的函数可以返回索引 1，其峰值元素为 2；或者返回索引 5， 其峰值元素为 6。
 
-#### 暴力求解
 
-这道题目只要求返回一个峰值，所以可以从前往后遍历，遇到符合条件的返回即可：
+这道题目只要求返回一个峰值，所以可以从前往后遍历，遇到符合条件的返回即可，暴力解法和二分法的代码如下：
 
-```py
-class Solution:
-    def findPeakElement(self, nums: List[int]) -> int:
-        for i in range(1, len(nums)):
-            if nums[i] < nums[i-1]:
-                return i-1
-        return len(nums)-1
-```
-
-#### 二分法
-
-```py
-class Solution:
-    def findPeakElement(self, nums: List[int]) -> int:
-        n = len(nums)
-        if n == 0:
-            return 0
-        l = 0
-        r = len(nums) - 1
-        while l + 1 < r:
-            mid = l + (r - l) // 2
-            if nums[mid] < nums[mid + 1]:
-                l = mid + 1
-            else:
-                r = mid
-        if l == n - 1 or nums[l] > nums[l + 1]:
-            return l
-        else:
-            return r
-```
+<RecoDemo :collapse="false">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/algorithm/findPeakElement.py
+</template>
+</RecoDemo>
