@@ -1,5 +1,5 @@
 ---
-title: MySQL 基础总结
+title: MySql 基础总结
 date: 2019-09-14
 categories:
  - Database
@@ -7,7 +7,11 @@ tags:
  - database
 ---
 
-## Tools and Environment
+本文主要介绍了 MySql 中涉及到的工具软件，以及 MySql 的查找、插入和删除操作；除此之外还介绍了简单的索引知识和存储引擎；还列举了 DAG 图的设计代码。
+
+<!-- more -->
+
+## Tools: MySql 工具软件
 
 1. 客户端数据库可视化查询软件 SQLyog
 2. SQL Server 启动程序 XAMPP
@@ -79,7 +83,7 @@ ON table_name1.column_name=table_name2.column_name
 [可以参考这一篇博客，讲述了如何使用 MySql + 邻接表存储一个 DAG](https://www.codeproject.com/Articles/22824/A-Model-to-Represent-Directed-Acyclic-Graphs-DAG-o)，代码如下所示：
 
 
-<RecoDemo :collapse="true">
+<RecoDemo :collapse="false">
 <template slot="code-sql">
   <<< @/docs/.vuepress/code/sql/DAG.sql
 </template>

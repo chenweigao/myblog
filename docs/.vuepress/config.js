@@ -78,7 +78,7 @@ module.exports = {
         "title": "weigao-blog",
         "desc": "上个版本的博客，疏于维护",
         "email": "mail@weigao.cc",
-        "link": "https://www.recoluan.com"
+        "link": "https://weigao.netlify.com/"
       },
       {
         "title": "vuepress-theme-reco",
