@@ -7979,6 +7979,11 @@ vuepress-mergeable@^1.0.2:
   dependencies:
     deconstruct-merge "^1.1.0"
 
+vuepress-plugin-code-copy@^1.0.6:
+  version "1.0.6"
+  resolved "http://r.cnpmjs.org/vuepress-plugin-code-copy/download/vuepress-plugin-code-copy-1.0.6.tgz#6431dab764b48b5b203e4936d98b1943651ce4ad"
+  integrity sha1-ZDHat2S0i1sgPkk22YsZQ2Uc5K0=
+
 vuepress-plugin-container@^2.0.2:
   version "2.1.2"
   resolved "http://r.cnpmjs.org/vuepress-plugin-container/download/vuepress-plugin-container-2.1.2.tgz#688c1e5a9709a1b8658605bcaee580b3abb19d16"

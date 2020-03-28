@@ -20,13 +20,14 @@ module.exports = {
   ],
   plugins: [
     [
-      'vuepress-plugin-mathjax',
+      ['vuepress-plugin-code-copy', true],
+      ['vuepress-plugin-mathjax',
       {
         target: 'chtml',
         macros: {
           '*': '\\times',
         },
-      },
+      }],
       '@vuepress/active-header-links',
       '@vuepress-reco/extract-code',
     ],
