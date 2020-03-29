@@ -18,23 +18,34 @@ module.exports = {
       }
     ]
   ],
+  markdown: {
+    lineNumbers: false
+  },
   plugins: [
-    [
-      ['vuepress-plugin-code-copy', true],
-      ['vuepress-plugin-mathjax',
-      {
-        target: 'chtml',
-        macros: {
-          '*': '\\times',
-        },
-      }],
+      'vuepress-plugin-smooth-scroll',
+      // 'cursor-effects',
       '@vuepress/active-header-links',
+      [
+        'vuepress-plugin-mathjax',
+        {
+          target: 'chtml',
+          macros: {
+            '*': '\\times',
+          },
+        },
+      ],
+      ['vuepress-plugin-code-copy', false],
       '@vuepress-reco/extract-code',
     ],
-  ],
-  "theme": "reco",
+  theme: "reco",
+  locales: {
+    '/': {
+      lang: 'zh-CN', // 将会被设置为 <html> 的 lang 属性
+    }
+  },
   "themeConfig": {
     huawei: true,
+    smoothScroll: true,
     "nav": [
       {
         "text": "Home",
