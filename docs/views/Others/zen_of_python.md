@@ -9,8 +9,9 @@ sticky: 1
 sidebar: false
 ---
 
-> -- By Tim Peters
-
+> Zon of Python -- By Tim Peters
+> 
+> 翻译 -- weigao chen
 <!-- more -->
 
 Beautiful is better than ugly.
