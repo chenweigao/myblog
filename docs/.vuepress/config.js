@@ -18,9 +18,6 @@ module.exports = {
       }
     ]
   ],
-  markdown: {
-    lineNumbers: false
-  },
   plugins: [
       'vuepress-plugin-smooth-scroll',
       // 'cursor-effects',
@@ -110,6 +107,6 @@ module.exports = {
     "startYear": "2017"
   },
   "markdown": {
-    "lineNumbers": true
+    // "lineNumbers": true
   }
 }
