@@ -1,6 +1,6 @@
 name: Tencent Static Site
 
-on: [push] # push 代码时触发
+#on: [push] # push 代码时触发
 
 jobs:
   deploy:
