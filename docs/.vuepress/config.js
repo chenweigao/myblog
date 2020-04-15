@@ -22,7 +22,10 @@ module.exports = {
   plugins: [
       'vuepress-plugin-smooth-scroll',
       // 'cursor-effects',
-      ['@vuepress/pwa'],
+      ['@vuepress/pwa',{
+        serviceWorker: true,
+        updatePopup: true
+      }],
       '@vuepress/active-header-links',
       [
         'vuepress-plugin-mathjax',
@@ -122,11 +125,11 @@ module.exports = {
   "markdown": {
     // "lineNumbers": true
   },
-  serviceWorker: {
-    // updatePopup: true,
-    updatePopup: {
-      message: "New content is available.",
-      buttonText: "Refresh"
-    }
-  }
+  // serviceWorker: {
+  //   // updatePopup: true,
+  //   updatePopup: {
+  //     message: "New content is available.",
+  //     buttonText: "Refresh"
+  //   }
+  // }
 }
