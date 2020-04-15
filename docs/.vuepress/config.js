@@ -22,6 +22,7 @@ module.exports = {
   plugins: [
       'vuepress-plugin-smooth-scroll',
       // 'cursor-effects',
+      ['@vuepress/pwa'],
       '@vuepress/active-header-links',
       [
         'vuepress-plugin-mathjax',
