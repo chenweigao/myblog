@@ -1,3 +1,4 @@
+const moment = require('moment');
 module.exports = {
   "title": "weigao chen",
   "description": "less is more",
@@ -33,6 +34,17 @@ module.exports = {
       ],
       ['vuepress-plugin-code-copy', false],
       '@vuepress-reco/extract-code',
+      [
+        '@vuepress/last-updated',
+        {
+          transformer: (timestamp, lang) => {
+            // Don't forget to install moment yourself
+            const moment = require('moment')
+            moment.locale(lang)
+            return moment(timestamp).format('llll')
+          }
+        }
+      ]
     ],
   theme: "reco",
   locales: {
@@ -110,7 +122,7 @@ module.exports = {
     // "lineNumbers": true
   },
   serviceWorker: {
-    updatePopup: true,
+    // updatePopup: true,
     updatePopup: {
       message: "New content is available.",
       buttonText: "Refresh"
