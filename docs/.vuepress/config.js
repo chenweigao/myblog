@@ -125,11 +125,7 @@ module.exports = {
   "markdown": {
     // "lineNumbers": true
   },
-  // serviceWorker: {
-  //   // updatePopup: true,
-  //   updatePopup: {
-  //     message: "New content is available.",
-  //     buttonText: "Refresh"
-  //   }
-  // }
+  serviceWorker: {
+    updatePopup: true,
+  }
 }
