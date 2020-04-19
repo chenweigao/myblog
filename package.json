@@ -4,18 +4,19 @@
   "author": "reco_luan",
   "scripts": {
     "dev": "vuepress dev docs",
-    "build": "vuepress build docs"
+    "build": "vuepress build docs",
+    "update": "yarn upgrade-interactive --latest"
   },
   "devDependencies": {
-    "@vuepress-reco/vuepress-plugin-extract-code": "^1.0.3",
-    "@vuepress/plugin-active-header-links": "^1.4.0",
+    "@vuepress-reco/vuepress-plugin-extract-code": "^1.0.4",
+    "@vuepress/plugin-active-header-links": "^1.4.1",
     "@vuepress/plugin-pwa": "^1.4.1",
     "moment": "^2.24.0",
-    "vuepress": "1.4.0",
+    "vuepress": "1.4.1",
     "vuepress-plugin-code-copy": "^1.0.6",
     "vuepress-plugin-mathjax": "^1.2.8",
     "vuepress-plugin-smooth-scroll": "^0.0.9",
-    "vuepress-theme-reco": "1.4.2"
+    "vuepress-theme-reco": "1.4.5"
   },
   "description": "",
   "dependencies": {}
