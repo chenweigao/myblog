@@ -34,6 +34,22 @@ categories:
 - PaaS：不属于 IaaS 和 SaaS 的，如开发框架；也可以从服务角度理解，为 IaaS+；常见的有应用开发环境、应用开发组件等。
 - SaaS：软件服务
 
+### 云服务器的种类
+
+- 计算资源
+	- ECS(elastic cloud server)，弹性云服务器
+- 存储资源
+	- EVC(elastic volume service)，云硬盘
+	- OBS(object-based storage)，对象存储服务
+- 网络资源
+	- VPC(virtual private cloud)，虚拟私有云
+- 管理与部署
+	- CES(cloud eye service)，云监控服务
+	- IAM(identity access management)，统一身份认证服务
+- 数据库生态
+	- DCS(distributed cache service)，分布式缓存服务
+	- DDM(distributed database middleware)，分布式数据库中间件
+
 ### 华为公有云服务架构
 
 华为公有云服务架构可分为四层，从上而下分别是：
@@ -115,3 +131,5 @@ Web 应用防火墙：主要是针对 web 应用的安全。
 数据加密服务：主要基于公私钥体系。可以分为两个场景：专属加密（dedicated HSM）场景和密钥管理（KMS）场景。
 
 数据库安全服务（DBSS）：包括数据库防火墙场景、敏感数据发现和脱敏场景、数据库审计场景。
+
+## 
