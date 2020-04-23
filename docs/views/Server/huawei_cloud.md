@@ -42,7 +42,8 @@ categories:
 	- EVC(elastic volume service)，云硬盘
 	- OBS(object-based storage)，对象存储服务
 - 网络资源
-	- VPC(virtual private cloud)，虚拟私有云
+	- VPC(virtual private cloud)，虚拟私有云。其中最重要的是子网、安全组等
+	- ELB(Elastic Load Balance)，弹性负载均衡
 - 管理与部署
 	- CES(cloud eye service)，云监控服务
 	- IAM(identity access management)，统一身份认证服务
@@ -131,5 +132,3 @@ Web 应用防火墙：主要是针对 web 应用的安全。
 数据加密服务：主要基于公私钥体系。可以分为两个场景：专属加密（dedicated HSM）场景和密钥管理（KMS）场景。
 
 数据库安全服务（DBSS）：包括数据库防火墙场景、敏感数据发现和脱敏场景、数据库审计场景。
-
-## 
