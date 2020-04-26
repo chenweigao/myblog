@@ -1,6 +1,6 @@
 ---
 title: Huawei Cloud 入门
-date: 2020-3-27
+date: 2020-03-27
 tags:
  - cloud
  - huawei
