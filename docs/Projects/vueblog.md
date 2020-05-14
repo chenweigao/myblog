@@ -264,6 +264,24 @@ tags:
 keys:
  - '123456' 注意这里用加密文
 publish: false
-sticky: 2
+sticky: 2 # 置顶的顺序
+---
+```
+
+:::tip 加密算法
+如果你的密码是 123456，需要将密码字符串设置为32位的 md5 加密密文。
+[md5加密](https://vuepress-theme-reco.recoluan.com/views/1.x/password.html#%E9%A1%B9%E7%9B%AE%E5%8A%A0%E5%AF%86)
+:::
+
+一般写作时复制如下代码：
+
+```md
+---
+title: 
+date: 2018-5-10
+tags:
+ - vue.js
+categories:
+ - Projects
 ---
 ```

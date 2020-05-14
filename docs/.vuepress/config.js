@@ -1,4 +1,5 @@
-// const moment = require('moment');
+const moment = require('moment');
+require('moment-timezone')
 module.exports = {
   "title": "weigao chen",
   "description": "less is more",
@@ -49,8 +50,10 @@ module.exports = {
           transformer: (timestamp, lang) => {
             // Don't forget to install moment yourself
             const moment = require('moment')
-            moment.locale(lang)
-            return moment(timestamp).format('llll')
+            jz = moment(timestamp)
+            time_res = jz.tz("Asia/Shanghai")
+            // return moment(timestamp).moment.tz("Asia/Shanghai").format('llll')
+            return time_res.format('llll')
           }
         }
       ]
