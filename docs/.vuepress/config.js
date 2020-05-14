@@ -1,4 +1,4 @@
-const moment = require('moment');
+// const moment = require('moment');
 module.exports = {
   "title": "weigao chen",
   "description": "less is more",
@@ -65,7 +65,6 @@ module.exports = {
         "link": "/",
         "icon": "reco-home"
       },
-      { text: 'Tags', link: '/tags/', icon: 'reco-tag' },
       {
         "text": "TimeLine",
         "link": "/timeline/",
@@ -94,10 +93,10 @@ module.exports = {
         "location": 2,
         "text": "Category"
       },
-      // "tags": {
-      //   "location": 3,
-      //   "text": "Tag"
-      // }
+      "tag": {
+        "location": 3,
+        "text": "Tag"
+      }
     },
     "friendLink": [
       {
