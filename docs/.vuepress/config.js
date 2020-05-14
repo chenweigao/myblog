@@ -65,6 +65,7 @@ module.exports = {
         "link": "/",
         "icon": "reco-home"
       },
+      { text: 'Tags', link: '/tags/', icon: 'reco-tag' },
       {
         "text": "TimeLine",
         "link": "/timeline/",
@@ -93,10 +94,10 @@ module.exports = {
         "location": 2,
         "text": "Category"
       },
-      "tag": {
-        "location": 3,
-        "text": "Tag"
-      }
+      // "tags": {
+      //   "location": 3,
+      //   "text": "Tag"
+      // }
     },
     "friendLink": [
       {
