@@ -1,5 +1,5 @@
 ---
-title: Linux 文本编辑器：Kilo
+title: Linux Text Editor：Kilo, C
 date: 2018-7-10
 tags:
  - Linux

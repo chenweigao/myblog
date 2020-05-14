@@ -1,5 +1,5 @@
 ---
-title: Jekyll：博客搭建
+title: Jekyll GitHub Pages Blog
 date: 2017-11-10
 tags:
  - blog
