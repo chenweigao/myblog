@@ -1,5 +1,5 @@
 const moment = require('moment');
-require('moment-timezone')
+require('moment-timezone');
 module.exports = {
   "title": "weigao chen",
   "description": "less is more",
