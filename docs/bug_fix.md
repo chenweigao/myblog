@@ -51,4 +51,4 @@ require('moment-timezone')
 
 解决方案：
 
-1. 尝试清除缓存重新 Build，并提交新的 commit
+1. 尝试清除缓存重新 Build，并提交新的 commit，修改成功，bug 原因未知。
