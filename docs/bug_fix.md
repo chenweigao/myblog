@@ -26,16 +26,16 @@ sticky: 3
 
 - 在项目中安装：`yarn add moment-timezone ` 并在 `config.js` 中使用；
 - 编写时区代码：
+
 ```js
-const moment = require('moment');
-require('moment-timezone')
-'@vuepress/last-updated',
-{
+'@vuepress/last-updated',{
   transformer: (timestamp, lang) => {
-    const moment = require('moment')
-    jz = moment(timestamp)
-    //moment.locale(lang);
+    // Don't forget to install moment yourself
+    // const moment = require('moment')
+    var moment = require('moment-timezone');
+    var jz = moment(timestamp)
     time_res = jz.tz("Asia/Shanghai")
+    // return moment(timestamp).moment.tz("Asia/Shanghai").format('llll')
     return time_res.format('llll')
   }
 }
