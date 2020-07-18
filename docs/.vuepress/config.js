@@ -124,12 +124,13 @@ module.exports = {
     "author": "weigaochen",
     "authorAvatar": "/avatar.png",
     "record": "Huawei Cloud & Xidian University",
-    "startYear": "2017"
+    "startYear": "2017",
+    // codeTheme: "twilight"
   },
   "markdown": {
     // "lineNumbers": true
   },
   serviceWorker: {
     updatePopup: true,
-  }
+  },
 }

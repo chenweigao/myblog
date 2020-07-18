@@ -2,10 +2,10 @@
 title: Python Hash Map 备忘
 date: 2020-07-12
 tags:
- - python 
  - hash map
 categories:
  - Python
+ - Algorithm
 ---
 
 以前很擅长写这个，现在记性不太好了，今天练习了一下，写在这里备忘一下。
