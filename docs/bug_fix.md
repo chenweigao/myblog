@@ -16,7 +16,7 @@ sticky: 3
 
 <!-- more -->
 
-<CodeCard/>
+<!-- <CodeCard/> -->
 
 ## momment.js 时区问题
 
@@ -35,6 +35,7 @@ sticky: 3
     // Don't forget to install moment yourself
     // const moment = require('moment')
     var moment = require('moment-timezone');
+    moment.locale('zh-cn');
     var jz = moment(timestamp)
     time_res = jz.tz("Asia/Shanghai")
     // return moment(timestamp).moment.tz("Asia/Shanghai").format('llll')

@@ -11,6 +11,7 @@
     "@vuepress-reco/vuepress-plugin-extract-code": "^1.0.4",
     "@vuepress/plugin-active-header-links": "^1.5.2",
     "@vuepress/plugin-pwa": "^1.5.2",
+    "element-ui": "^2.13.2",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
     "vuepress": "1.5.2",
