@@ -121,7 +121,7 @@ module.exports = {
     "search": true,
     "searchMaxSuggestions": 10,
     "sidebar": "auto",
-    "lastUpdated": "Last Updated",
+    "lastUpdated": "更新时间： ",
     "author": "weigaochen",
     "authorAvatar": "/avatar.png",
     "record": "Huawei Cloud & Xidian University",
