@@ -121,10 +121,10 @@ module.exports = {
     "search": true,
     "searchMaxSuggestions": 10,
     "sidebar": "auto",
-    "lastUpdated": "更新时间： ",
+    "lastUpdated": "更新时间",
     "author": "weigaochen",
     "authorAvatar": "/avatar.png",
-    "record": "Huawei Cloud & Xidian University",
+    "record": "Huawei Cloud BU & Xidian University",
     "startYear": "2017",
     // codeTheme: "twilight"
   },
