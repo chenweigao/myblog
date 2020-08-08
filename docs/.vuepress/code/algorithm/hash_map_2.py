@@ -13,6 +13,7 @@ import collections
 class Solution2:
     def uniqueOccurrences(self, arr: 'List[int]') -> bool:
         arr_dict = collections.Counter(arr)
+        print(arr_dict.values()) # dict_values([3, 2, 1])
         return len(set(arr_dict.values())) == len(arr_dict)
 
 arr = [1,2,2,1,1,3]

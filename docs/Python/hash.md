@@ -31,14 +31,18 @@ LeetCode 的一个题目涉及到了这个问题：[1512. Number of Good Pairs](
 
 ### collections.Counter()
 
+#### .values()
+
 这是 python 官方库的实现方式，使用前需要先导入 `collections` 依赖。
 
 以 leetcode 的 [1207](https://leetcode-cn.com/problems/unique-number-of-occurrences/) 题目举例来说明用法：
 
 <RecoDemo :collapse="true">
 <template slot="code-python">
-  <<< @/docs/.vuepress/code/algorithm/hash_map_1.py
+  <<< @/docs/.vuepress/code/algorithm/hash_map_2.py
 </template>
 </RecoDemo>
+
+该题目中使用了 `collections.Counter()` 获得字典，而后通过 `.values()` 拿到字典中的 value 集合，最后通过将其转化为 set 来判断是否与原有字典长度相等达到解决问题的目的。
 
 

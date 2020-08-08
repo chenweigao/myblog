@@ -249,39 +249,11 @@ class TestClassScope:
 
 如可以在测试时统计测试的耗时，下面是两个自动计时固件，一个用于统计每个函数运行时间（`function` 作用域），一个用于计算测试总耗时（`session` 作用域）：
 
-```python
-# test_autouse.py
-
-DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
-
-
-@pytest.fixture(scope='session', autouse=True)
-def timer_session_scope():
-    start = time.time()
-    print('\nstart: {}'.format(time.strftime(DATE_FORMAT, time.localtime(start))))
-
-    yield
-
-    finished = time.time()
-    print('finished: {}'.format(time.strftime(DATE_FORMAT, time.localtime(finished))))
-    print('Total time cost: {:.3f}s'.format(finished - start))
-
-
-@pytest.fixture(autouse=True)
-def timer_function_scope():
-    start = time.time()
-    yield
-    print(' Time cost: {:.3f}s'.format(time.time() - start))
-
-"""
-tests\fixture\test_autouse.py
-start: 2018-06-12 10:16:27
-. Time cost: 1.003s.
-. Time cost: 2.003s.
-finished: 2018-06-12 10:16:30
-Total time cost: 3.016s.
-"""
-```
+<RecoDemo :collapse="true">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/demo/pytest_autouse_demo.py
+</template>
+</RecoDemo>
 
 ### 重命名
 
@@ -307,12 +279,6 @@ def test_age(age):
 固件参数化需要使用 pytest 内置的固件 `request`，并通过 `request.param` 获取参数。
 
 使用 pytest 的固件参数化连接两个不同数据库的示例如下所示：
-
-<RecoDemo :collapse="true">
-<template slot="code-python">
-  <<< @/docs/.vuepress/code/demo/pytest_autotest_demo.py
-</template>
-</RecoDemo>
 
 ```python
 @pytest.fixture(params=[
