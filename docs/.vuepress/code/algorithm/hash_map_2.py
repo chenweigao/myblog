@@ -1,12 +1,11 @@
 # LC 1207
+# algorithm/hash_map_2.py
 class Solution:
     def uniqueOccurrences(self, arr: 'List[int]') -> bool:
-        values = []
         arr_dict = {}
         for n in arr:
             arr_dict[n] = arr_dict.get(n, 0) + 1
-        for value in arr_dict.values():
-            values.append(value)
+        values = list(arr_dict.values())
         return len(values) == len(set(values))
 
 import collections
