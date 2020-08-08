@@ -28,3 +28,17 @@ LeetCode 的一个题目涉及到了这个问题：[1512. Number of Good Pairs](
 </RecoDemo>
 
 具体的[完整示例](https://github.com/chenweigao/_code/blob/master/LeetCode/LC1512_Number_of_good_pairs.py)可以参考 GitHub。
+
+### collections.Counter()
+
+这是 python 官方库的实现方式，使用前需要先导入 `collections` 依赖。
+
+以 leetcode 的 [1207](https://leetcode-cn.com/problems/unique-number-of-occurrences/) 题目举例来说明用法：
+
+<RecoDemo :collapse="true">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/algorithm/hash_map_1.py
+</template>
+</RecoDemo>
+
+

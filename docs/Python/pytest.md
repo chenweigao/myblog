@@ -308,6 +308,12 @@ def test_age(age):
 
 使用 pytest 的固件参数化连接两个不同数据库的示例如下所示：
 
+<RecoDemo :collapse="true">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/demo/pytest_autotest_demo.py
+</template>
+</RecoDemo>
+
 ```python
 @pytest.fixture(params=[
     ('redis', '6379'),

@@ -7,7 +7,6 @@ categories:
 tags:
  - bug
  - log
-sticky: 3
 ---
 
 :::danger 2020 bug

@@ -30,7 +30,7 @@ show columns in table_name;
 select * from table_name limit 1 \G;
 ```
 
-## DROP
+### DROP
 
 删除：
 
@@ -89,7 +89,7 @@ ON table_name1.column_name=table_name2.column_name
 </template>
 </RecoDemo>
 
-## index
+## Index 索引
 
 ### explain
 
