@@ -1,8 +1,9 @@
 ---
 title:  背包问题总结
-date: 2019-8-6
+date: 2021-5-22
 tags:
  - algorithm
+ - dp
 categories:
  - Algorithm
 ---
@@ -478,4 +479,8 @@ for i ← 1 to N
 
 - 完全背包正着来
 - 如果与顺序有关，内循环 coins，外循环 target（背包容量在外）
+
+## 参考文献：
+
+[一篇文章吃透背包问题！（细致引入+解题模板+例题分析+代码呈现）](https://leetcode-cn.com/problems/coin-change-2/solution/yi-pian-wen-zhang-chi-tou-bei-bao-wen-ti-2xkk/)
 
