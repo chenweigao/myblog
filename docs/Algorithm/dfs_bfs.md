@@ -21,11 +21,17 @@ categories:
 
 - [Target Sum: LC494](https://leetcode.com/problems/target-sum/)
 
+| 问题                       | 链接                                                         | 类型 | 备注 |
+| -------------------------- | ------------------------------------------------------------ | ---- | ---- |
+| LC329 矩阵中的最长递增路径 | [LC 329](https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/) | DFS  |      |
+|                            |                                                              |      |      |
+|                            |                                                              |      |      |
+
+
+
 ## DFS
 
-### 矩阵中的最长递增路径
-
-[https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/](https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/)
+### 1. lC 329 矩阵中的最长递增路径
 
 > 给定一个整数矩阵，找出最长递增路径的长度。
 >
@@ -34,8 +40,9 @@ categories:
 这是一道迷宫搜索问题，可以使用 DFS 搜索，这样可以熟悉 DFS 的步骤。实现代码如下所示：
 
 
-<RecoDemo :collapse="true">
+<RecoDemo :collapse="false">
 <template slot="code-python">
   <<< @/docs/.vuepress/code/algorithm/dfs.py
 </template>
 </RecoDemo>
+
