@@ -27,11 +27,12 @@ categories:
 
 ### 0-1 背包
 
-| 问题                     | 类型                   | 递推公式                            | 备注     |
-| ------------------------ | ---------------------- | ----------------------------------- | -------- |
-| 例题 LC474：1和0         | 0-1 背包最大最小值问题 | `dp[i] = max(dp[i], dp[i-num] + 1)` | 两个背包 |
-| 例题 LC416：分割等和子集 | 0-1 背包True/False问题 | `dp[i] = dp[i] or dp[i - num]`      |          |
-| 例题 LC494：目标和       | 0-1 背包组合问题       | `dp[i] += dp[i - num]`              |          |
+| 问题                                | 类型                   | 递推公式                                  | 备注     |
+| ----------------------------------- | ---------------------- | ----------------------------------------- | -------- |
+| 例题 LC474：1和0                    | 0-1 背包最大最小值问题 | `dp[i] = max(dp[i], dp[i-num] + 1)`       | 两个背包 |
+| 例题 LC416：分割等和子集            | 0-1 背包True/False问题 | `dp[i] = dp[i] or dp[i - num]`            |          |
+| 例题 LC494：目标和                  | 0-1 背包组合问题       | `dp[i] += dp[i - num]`                    |          |
+| 例题 LC1049：最后一块石头的重量 III | 0-1 背包最大最小值问题 | `dp[i] = max(dp[i], dp[i-stone] + stone)` |          |
 
 ### 完全背包
 
@@ -207,7 +208,36 @@ class Solution:
         return dp[left_target]
 ```
 
+### LC1049 最后一块石头的重量 III
 
+https://leetcode-cn.com/problems/last-stone-weight-ii/
+
+> 有一堆石头，每块石头的重量都是正整数。
+>
+> 每一回合，从中选出任意两块石头，然后将它们一起粉碎。假设石头的重量分别为 x 和 y，且 x <= y。那么粉碎的可能结果如下：
+>
+> 如果 x == y，那么两块石头都会被完全粉碎；
+> 如果 x != y，那么重量为 x 的石头将会完全粉碎，而重量为 y 的石头新重量为 y-x。
+> 最后，最多只会剩下一块石头。返回此石头最小的可能重量。如果没有石头剩下，就返回 0。
+
+分析：这是一道比较隐晦的 0-1 背包问题，其 target 值是石头总重量的一半。
+
+0-1 背包倒着来，最大最小递推公式用 max!
+
+代码如下：
+
+```python
+class Solution:
+    def lastStoneWeightII(self, stones: List[int]) -> int:
+        left_target = sum(stones) // 2
+        dp = [0] + [0] * left_target
+
+        for stone in stones:
+            for i in range(left_target, stone - 1, -1):
+                dp[i] = max(dp[i], dp[i - stone] + stone)
+
+        return sum(stones) - 2 * dp[left_target]
+```
 
 ### 总结
 
@@ -483,4 +513,3 @@ for i ← 1 to N
 ## 参考文献
 
 [一篇文章吃透背包问题！（细致引入+解题模板+例题分析+代码呈现）](https://leetcode-cn.com/problems/coin-change-2/solution/yi-pian-wen-zhang-chi-tou-bei-bao-wen-ti-2xkk/)
-
