@@ -1,5 +1,5 @@
 ---
-title: 腾讯实习感悟
+title: 实习感悟
 date: 2019-8-5
 tags:
  - thoughts
