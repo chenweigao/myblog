@@ -8,6 +8,18 @@ categories:
  - Algorithm
 ---
 
+## 例题索引
+
+| 问题                                                         | 类型               | 解法                  | 备注 |
+| ------------------------------------------------------------ | ------------------ | --------------------- | ---- |
+| LC560 和为 k 的子数组                                        | 前缀和 + dict      | 最经典的前缀和用法！  |      |
+| LC1744 你能在你最喜欢的那天吃到你最喜欢的糖果吗？            | 前缀和综合应用问题 | 使用到了 `accumulate` |      |
+| LC724 寻找数组的中心索引（下标）                             |                    |                       |      |
+| LC930 和相同的二元子数组                                     | 前缀和 + dict      | 同解法 LC560          |      |
+| LC525 [连续数组](https://leetcode-cn.com/problems/contiguous-array/) |                    |                       |      |
+
+
+
 ## 概述
 
 ### 前缀和快速求解
@@ -62,7 +74,7 @@ pre_sum      = [7, 11, 16, 19, 27] #
 
 要求解`nums[1...3]`，可以看到，其实际的区间和为 4 + 5 + 3 为 12，对应的 `pre_sum[3] - pre_sum[0]` 为 19 - 7 = 12。
 
-:::tips 结论
+:::tip 结论
 
 故得出结论：在实际的编写代码过程中，`nums[i..j] = pre_sum[j] - pre_sum[i - 1]`，但是这种方式要注意，数组越界！
 
@@ -70,15 +82,6 @@ pre_sum      = [7, 11, 16, 19, 27] #
 
 :::
 
-
-## 例题索引
-
-| 问题                                              | 类型               | 解法                  | 备注 |
-| ------------------------------------------------- | ------------------ | --------------------- | ---- |
-| LC560 和为 k 的子数组                             | 前缀和 + dict      | 最经典的前缀和用法！  |      |
-| LC1744 你能在你最喜欢的那天吃到你最喜欢的糖果吗？ | 前缀和综合应用问题 | 使用到了 `accumulate` |      |
-| LC724 寻找数组的中心索引（下标）                  |                    |                       |      |
-| LC930 和相同的二元子数组                          | 前缀和 + dict      | 同解法 LC560          |      |
 
 
 
@@ -258,5 +261,52 @@ class Solution:
                 count += mapping[key]
                 mapping[prefix] += 1
         return count
+```
+
+### LC525 连续数组
+
+> 给定一个二进制数组 nums , 找到含有相同数量的 0 和 1 的最长连续子数组，并返回该子数组的长度。
+>
+> 示例 1:
+>
+> 输入: nums = [0,1]
+>
+> 输出: 2
+>
+> 说明: [0, 1] 是具有相同数量0和1的最长连续子数组。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/contiguous-array
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+题目分析：这道题目首先把数组中的 0 全部替换成 1，那就等价于找和为 0 的最长连续数组。不同于上面 LC560 的是，这道题目要求返回的是子数组的长度。
+
+如果这道题目按照上述模板进行的话，可能会有些难理解，所以，模板不能万能的，关键还是要理解！
+
+#### 解法一：模板
+
+```python
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        _nums = []
+        for num in nums:
+            if num == 0:
+                _nums.append(-1)
+            else:
+                _nums.append(1)
+
+        # 遇到前缀和，首先联想到 hash map
+        mapping = collections.defaultdict(int)
+        mapping[0] = -1
+        max_len = 0
+        for i, prefix in enumerate(accumulate(_nums)):
+            key = prefix - 0
+            # 如果存在1和0的数量差值相等的地方，那么说明后者到前者之前1和0的数量相等！
+            # 换句话说，就是前缀和相等的地方，求解前缀和数组出现相等地方的最大距离
+            if key not in mapping:
+                mapping[prefix] = i
+            else:
+                max_len = max(max_len, i - mapping[key])
+        return max_len
 ```
 
