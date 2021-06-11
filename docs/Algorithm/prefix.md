@@ -17,6 +17,7 @@ categories:
 | LC724 寻找数组的中心索引（下标）                             |                    |                       |      |
 | LC930 和相同的二元子数组                                     | 前缀和 + dict      | 同解法 LC560          |      |
 | LC525 [连续数组](https://leetcode-cn.com/problems/contiguous-array/) |                    |                       |      |
+| LC209 长度最小的子数组                                       | 前缀和 + 二分      |                       |      |
 
 
 
@@ -116,6 +117,17 @@ def subarraySum(self, nums: List[int], k: int) -> int:
             if pre_sum[j + 1] - pre_sum[i] == k:
                 count += 1
      return count
+
+# 小优化，j 从 i + 1 开始循环，提高可读性
+def subarraySum(self, nums: List[int], k: int) -> int:
+    pre_sum = [0] + list(accumulate(nums))
+    count = 0
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            # nums[i..j] = pre_sum[j+1] - pre_sum[i]
+            if pre_sum[j] - pre_sum[i] == k:
+                count += 1
+     return count
 ```
 
 #### 解法2：优化解法（hash map）
@@ -125,18 +137,38 @@ def subarraySum(self, nums: List[int], k: int) -> int:
 上述的判断语句：
 
 ```python
-if pre_sum[j + 1] - pre_sum[i] == k:
+if pre_sum[j] - pre_sum[i] == k:
 	count += 1
 ```
 
 等价于：
 
 ```python
-if pre_sum[i] == pre_sum[j+1] - k:
+if pre_sum[i] == pre_sum[j] - k:
     count += 1
 ```
 
-因此可以使用 hash map 记录下来有几个 `pre_sum[i]` 和 `pre_sum[j+1] - k ` 相等，干掉内层的 for 循环。
+如此可以把循环进行颠倒：
+
+```python
+#原来的循环
+for i in range(len(nums)):
+    for j in range(i + 1, len(nums)):
+        if pre_sum[j] - pre_sum[i] == k:
+            count += 1
+
+# 颠倒后的循环
+for j in range(1, len(nums)):
+	for i in range(j):
+        if pre_sum[i] == pre_sum[j] - k:
+            count += 1
+```
+
+其含义是，**有多少个 `i` 满足 `pre_sum[i]` 的值为 `pre_sum[j] - k`**。所以我们可以通过 hashmap 存储每一个 `pre_sum[i]` 的值，直接找到满足条件的 `pre_sum[i]` 的个数。
+
+因此我们使用 hashmap，在计算前缀和的同时把前缀和的每个值出现的次数都记录在 hashmap 中。
+
+~~（因此可以使用 hash map 记录下来有几个 `pre_sum[i]` 和 `pre_sum[j+1] - k ` 相等，干掉内层的 for 循环。）~~
 
 ```python
 def subarraySum(self, nums: List[int], k: int) -> int:
@@ -158,7 +190,41 @@ def subarraySum(self, nums: List[int], k: int) -> int:
     return count
 ```
 
+#### 解法3：对比理解
 
+使用下面的解法，对比理解这个题目：
+
+首先看优化后的 for 循环:
+
+```python
+for j in range(1, len(nums)):
+	for i in range(j):
+        if pre_sum[i] == pre_sum[j] - k:
+            count += 1
+```
+
+```python
+class Solution4:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        mapping = collections.defaultdict(int)
+        # 前缀和 0 出现 1 次
+        mapping[0] = 1
+        count = 0
+        presum_j = 0
+        for num in nums:
+            presum_j += num
+            # 查找有多少个 presum[i] 等于 presum[j] - k
+            # 要求解的 presum[i] 的个数
+            if presum_j - k in mapping:
+                count += mapping.get(presum_j - k)
+
+            # 更新 presum[j] 的个数
+            if presum_j in mapping:
+                mapping[presum_j] += 1
+            else:
+                mapping[presum_j] = 1
+        return count
+```
 
 ### LC1744 你能在你最喜欢的那天吃到你最喜欢的糖果吗？
 
@@ -308,5 +374,51 @@ class Solution:
             else:
                 max_len = max(max_len, i - mapping[key])
         return max_len
+```
+
+### LC209 长度最小的子数组
+
+> 给定一个含有 n 个正整数的数组和一个正整数 target 。
+>
+> 找出该数组中满足其和 ≥ target 的长度最小的 连续子数组 [numsl, numsl+1, ..., numsr-1, numsr] ，并返回其长度。如果不存在符合条件的子数组，返回 0 。
+>
+> 示例 1：
+>
+> 输入：target = 7, nums = [2,3,1,2,4,3]
+>
+> 输出：2
+>
+> 解释：子数组 [4,3] 是该条件下的长度最小的子数组。
+>
+> 来源：力扣（LeetCode）
+> 链接：https://leetcode-cn.com/problems/minimum-size-subarray-sum
+> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+解析：可以使用前缀和来求解。
+
+牢记前缀和的推导：`nums[i:j]`的和等于 `pre_sum[j + 1] - pre_sum[i]`，当初始化为 [0] + presums 的时候。
+
+如果是初始化为 presums 的时候，前缀和就应该是 `pre_sum[j] - pre_sum[i-1]`，其实是等价的，就看下标的不同。
+
+```python
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        if not nums:
+            return 0
+        ans = len(nums) + 1
+        # 求前缀和，这种方式求解的前缀和 nums[i:j] = pre[j+1] - pre[i]
+        pre_sum = [0] + list(itertools.accumulate(nums))
+
+        # 推导一下：我们在确定左边界 i 的时候，需要求解 sum(nums[i:j]) >= target, 也就是说相当于 pre[j+1] - pre[i] >= target
+        # 移项可得 pre[j+1] >= pre[i] + target
+        # 也就是说需要找到那个 j 在数组中的插入位置
+        for i in range(len(pre_sum)):
+            find = pre_sum[i] + target
+            bound = bisect.bisect_left(pre_sum, find)
+            if bound != len(pre_sum):
+                ans = min(bound - i, ans)
+
+        return 0 if ans == len(pre_sum) else ans
+
 ```
 
