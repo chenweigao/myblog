@@ -1,8 +1,8 @@
 const moment = require('moment');
 // require('moment-timezone');
 module.exports = {
-  "title": "weigao chen",
-  "description": "less is more",
+  "title": "Chener丶",
+  "description": "梦想还很遥远",
   "dest": "public",
   "head": [
     [
