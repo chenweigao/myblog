@@ -100,3 +100,27 @@ python3 -m visdom.server
 nvidia-smi
 ```
 
+## 查看 Python 路径
+
+有的时候我们可能需要查看一下 python 的安装路径，可以使用如下的方法：
+
+```bash
+python
+>>> import sys
+>>> sys.path
+```
+
+## 设置 pip 源
+
+### windows 
+
+直接在 user 目录中创建一个 pip 目录，而后创建一个 `pip.ini` 文件：
+
+```ini
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+### linux
+
+修改 ~/.pip/pip.conf (没有就创建一个)。
