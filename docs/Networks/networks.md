@@ -247,8 +247,8 @@ seq1 - seq2 = 1111 1111 - 0000 0001 = 1111 1110, 由于结果被强制类型转�
 
 ### TCP 状态机
 
-![TCP STATE](/tcp.jpg)
-<!-- ![TCP state](https://upload-images.jianshu.io/upload_images/4010128-b83e0e722007f62a.jpg) -->
+<a data-fancybox title="TCP STATE" href="/tcp.jpg">![TCP STATE](/tcp.jpg)</a>
+<!-- <a data-fancybox title="TCP state" href="https://upload-images.jianshu.io/upload_images/4010128-b83e0e722007f62a.jpg">![TCP state](https://upload-images.jianshu.io/upload_images/4010128-b83e0e722007f62a.jpg)</a> -->
 
 连接：
 
@@ -347,7 +347,7 @@ Congestion Control State Machine. 拥塞控制状态机的状态有五种，分�
 
     举例说明：
 
-    ![cwnd and ssthresh](/cwnd.jpg)
+    <a data-fancybox title="cwnd and ssthresh" href="/cwnd.jpg">![cwnd and ssthresh](/cwnd.jpg)</a>
 
     假设在 cwnd 为32个报文段时发生拥塞（超时引起），于是设 ssthresh 为16个报文段，而 cwnd 为1个报文段，cwnd 在收到发送报文的 ACK 时指数增长，直到 cwnd 等于 ssthresh 才停止，从这时起 cwnd 线性增加，并在每个往返时间内最多增加1个报文段。
 

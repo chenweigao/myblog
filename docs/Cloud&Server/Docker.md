@@ -8,6 +8,76 @@ categories:
  - Cloud
 ---
 
+## Docker Usage
+
+### MySql
+
+参考文献: [docker 绿皮书](http://docs.nigeerhuo.com/docker/)
+
+使用 Docker 一步搞定 MySql 的安装：
+
+```bash
+docker run -p 3306:3306 --name mysql-dokcer -e MYSQL_ROOT_PASSWORD=123456 -d mysql:latest
+```
+
+上述命令的字段含义是：
+
+1. `-p 3306:3306`：将运行容器内部的 3306 端口桥接到宿主机的 3306 端口。左边的属于宿主机，右边的属于容器。
+2. `-e MYSQL_ROOT_PASSWORD=123456`：设置容器使用的环境变量。`MYSQL_ROOT_PASSWORD=123456` 指定了mysql server的密码是123456. (默认用户名是root)。
+3. `-d`：后台运行容器。
+
+### MongoDB
+
+```bash
+docker run --name mongo-docker -d -p 27077:27017 mongo:latest
+```
+
+此时可以用连接工具 [https://studio3t.com/](https://studio3t.com/) 测试并连接到 27077 端口。
+
+
+### Jenkins
+
+```bash
+docker run -d -p 18088:8080 --name jenkins-docker -p 50000:50000 jenkins/jenkins:lts
+```
+
+需要注意的是，Jenkins 会使用两个端口映射到宿主机上面，向外暴露的是 8080 服务，我们在本地只需要连接 18088 端口即可。
+
+连接到 localhost:18088 后，会提示配置密码，需要进入容器查看密码。
+
+容器启动以后，需要进入容器对 Jenkins 进行简单的配置：
+
+1. 进入容器
+
+    ```bash
+    docker exec -it jenkins-docker bash
+    ```
+
+
+2. 查看密码文件内容
+
+    ```bash
+    tail -f /var/jenkins_home/secrets/initialAdminPassword
+    ```
+
+    此时会得到类似于 `13e19c5410b145e59dbf70916ed4a3fb` 这样的输出，输入到浏览器端，即可进入。此时会自动安装一些插件，等待插件安装完成，然后设置账号密码，配置完成。
+
+### Tomcat
+
+指定 Tomcat 版本进行安装：
+
+```bash
+docker run --name tomcat-docker-8.0 -d  -p 9999:8080 tomcat:8.0
+```
+
+安装完成之后，想要把本地的文件拷贝到容器中：
+
+```bash
+docker cp ./.  tomcat-docker-8.0:/home
+# 或者拷贝 war
+docker cp foo.war tomcat-docker-8.0:/foo.war
+```
+
 
 ## Installation
 
