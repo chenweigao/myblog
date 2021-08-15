@@ -2,13 +2,155 @@
 title: Python 基础语法和数据结构
 date: 2017-8-20
 tags:
- - python 
- - datastruct
+ - Python 
 categories:
  - Python
 ---
 
 > Python’s simplicity lets you become productive quickly, but this often means you aren’t using everything it has to offer.  With this hands-on guide, you’ll learn how to write        effective, idiomatic Python code by leveraging its best—and possibly most neglected—features. Author Luciano Ramalho takes you through Python’s core language features and            libraries, and shows you how to make your code shorter, faster, and more readable at the same time.
+
+<!-- more -->
+
+## Class
+
+### 1. 作用域和命名空间
+
+首先来看一个例子，参考文献 P1.1:
+
+<RecoDemo :collapse="false">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/python/namespace-scope.py
+</template>
+</RecoDemo>
+
+```python
+def scope_test():
+    def do_local():
+        spam = "local spam"
+
+    def do_nonlocal():
+        nonlocal spam
+        spam = "nonlocal spam"
+
+    def do_global():
+        global spam
+        spam = "global spam"
+
+    spam = "test spam"
+    do_local()
+    print("After local assignment:", spam)
+    # After local assignment: test spam
+    do_nonlocal()
+    print("After nonlocal assignment:", spam)
+    # After nonlocal assignment: nonlocal spam
+    do_global()
+    print("After global assignment:", spam)
+    # After global assignment: nonlocal spam
+    # 这时候还未修改是因为还在执行 scope_test 内部
+
+scope_test()
+print("In global scope:", spam)
+# In global scope: global spam
+```
+
+附上官方的解释：
+
+> 请注意 局部 赋值（这是默认状态）不会改变 scope_test 对 spam 的绑定。 nonlocal 赋值会改变 scope_test 对 spam 的绑定，而 global 赋值会改变模块层级的绑定。
+
+> 您还可以发现在 global 赋值之前没有 spam 的绑定。
+
+
+上述代码的理解应该包括一下几点：
+
+1. 当内部作用域想修改外部作用域的变量时，就要用到 **global** 和 **nonlocal** 关键字了。如 `do_local()` 中的 `nolocal` 关键字可以成功修改 *spam("test spam")*  的值。
+    
+    举例而言：
+    ```python
+    #!/usr/bin/python3
+    
+    def outer():
+        num = 10
+        def inner():
+            nonlocal num   # nonlocal关键字声明
+            num = 100
+            print(num)     # 100, nonlocal 关键字修改了函数 outer 内部的 num 变量
+        inner()
+        print(num)         # 100
+    outer()
+    ```
+
+
+2. `global` 关键字一般是用来修改函数外部的变量（全局变量）。
+
+    举例而言：
+    ```python
+    #!/usr/bin/python3
+    
+    num = 1
+    def fun1():
+        global num  # 需要使用 global 关键字声明
+        print(num)  # 取到全局变量 1
+        num = 123   
+        print(num)  # 123 成功给全局变量赋值
+    fun1()          
+    print(num)      # 123 全局变量值被修改
+    ```
+
+    上面的 `scope_test()` 执行后，才修改到了函数外部的全局变量。
+
+:::tip L –> E –> G –> B
+虽然作用域是静态地确定的，但它们会被动态地使用。 在执行期间的任何时刻，会有 3 或 4 个命名空间可被直接访问的嵌套作用域:
+
+- Local: 最先搜索的最内部作用域包含局部名称
+
+- Encrosing: 从最近的封闭作用域开始搜索的任何封闭函数的作用域包含非局部名称，也包括非全局名称
+
+- Global: 倒数第二个作用域包含当前模块的全局名称
+
+- Built-in: 最外面的作用域（最后搜索）是包含内置名称的命名空间
+:::
+
+### 2. Class
+
+#### 2.1 self
+
+> 方法的特殊之处就在于实例对象会作为函数的第一个参数被传入。 在我们的示例中，调用 x.f() 其实就相当于 MyClass.f(x)。 总之，调用一个具有 n 个参数的方法就相当于调用再多一个参数的对应函数，这个参数值为方法所属实例对象，位置在其他参数之前。
+
+> 方法的第一个参数常常被命名为 self。 这也不过就是一个约定: self 这一名称在 Python 中绝对没有特殊含义。
+
+#### 2.2 给类添加迭代器
+
+定义一个 `__iter__()` 方法来返回一个带有 `__next__()` 方法的对象。 如果类已定义了 `__next__()`，则 `__iter__()` 可以简单地返回 `self`:
+
+```python
+class Reverse:
+    """Iterator for looping over a sequence backwards."""
+    def __init__(self, data):
+        self.data = data
+        self.index = len(data)
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.index == 0:
+            raise StopIteration
+        self.index = self.index - 1
+        return self.data[self.index]
+```
+
+更优雅的方式是定义一个生成器：
+
+```python
+def reverse(data):
+    for index in range(len(data)-1, -1, -1):
+        yield data[index]
+```
+
+
+### P1. 参考文献
+
+1. [Pyton 作用域与命名空间，官方文档](https://docs.python.org/zh-cn/3/tutorial/classes.html)
 
 ## Data Struct
 
