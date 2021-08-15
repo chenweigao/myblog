@@ -2,7 +2,7 @@ const moment = require('moment');
 // require('moment-timezone');
 module.exports = {
   "title": "Chener丶",
-  "description": "梦想还很遥远",
+  "description": "Welcome Back at " + moment().format("YYYY-MM-DD HH:mm") + " !",
   "dest": "public",
   "head": [
     [
