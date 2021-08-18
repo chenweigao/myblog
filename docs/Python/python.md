@@ -147,6 +147,30 @@ def reverse(data):
         yield data[index]
 ```
 
+### 单元测试
+
+举个基本的用例：
+
+```python
+import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def test_default_widget_size(self):
+        self.assertEqual(self.widget.size(), (50,50),
+                         'incorrect default size')
+
+    def test_widget_resize(self):
+        self.widget.resize(100,150)
+        self.assertEqual(self.widget.size(), (100,150),
+                         'wrong size after resize')
+    
+    def tearDown(self):
+        self.widget.dispose()
+```
+
 
 ### P1. 参考文献
 
