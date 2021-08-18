@@ -1,4 +1,4 @@
 node_modules/
 public/
 .github/workflows
-!/docs/public
+!/docs/.vuepress/public
