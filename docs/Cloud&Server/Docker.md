@@ -82,7 +82,7 @@ docker cp foo.war tomcat-docker-8.0:/foo.war
 
 使用 Dokcer + Spring-boot 构建项目。
 
-:::warn Docker in wsl
+:::warning Docker in wsl
 这次尝试在 WSL 上面安装了 Docker，要注意到 WSL 是用了 `SysV init` 的命令而不是 `systemd`, 所以在启动 Docker 的时候使用
 
 `service docker start`，不必使用 systemctl.
