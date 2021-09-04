@@ -1,4 +1,29 @@
+---
+title: Git
+date: 2020-05-14
+tags:
+ - tools
+categories:
+ -  Tools
+---
+
 # Git
+
+## GitHub Host 加速
+
+下载软件：[SwitchHosts](https://github.com/oldj/SwitchHosts/releases)
+
+添加一条规则：
+
+::: tip
+方案名：GitHub（可以自行命名）
+
+类型：远程
+
+URL 地址：https://cdn.jsdelivr.net/gh/ineo6/hosts/hosts
+
+自动更新：1个小时
+:::
 
 ## SSH Server
 

@@ -10,6 +10,39 @@ categories:
 
 ## Docker Usage
 
+### postgresql
+
+postgresql:
+
+```bash
+docker run -d -p 5432:5432 --name postgresql -v pgdata:/var/lib/postgresql/data -e POSTGRES_PASSWORD=pg123456 postgres
+```
+
+dpage/pgadmin4:
+
+```bash
+docker run -d -p 5433:80 --name pgadmin4 -e PGADMIN_DEFAULT_EMAIL=mail@weigao.cc -e PGADMIN_DEFAULT_PASSWORD=123456 dpage/pgadmin4
+ ```
+
+登录 pgadamin 的时候，账号为邮箱，密码 123456 如上所设置。
+
+在创建 pg server 的时候，密码为 pg123456 如上配置，服务器的地址用如下方式获取：
+
+```bash
+docker exec -it postgresql bash
+
+root@b4afa86fb3b3:/# cat /etc/hosts
+127.0.0.1       localhost
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+172.17.0.3      b4afa86fb3b3 # 容器的 IP
+```
+
+此时我们使用 `172.17.0.3:5432` 连接数据库即可。
+
 ### MySql
 
 参考文献: [docker 绿皮书](http://docs.nigeerhuo.com/docker/)
@@ -89,7 +122,60 @@ docker cp foo.war tomcat-docker-8.0:/foo.war
 :::
 
 
+## Tools
 
+### portainer
+
+portainer 是一个 web 的 docker 管理工具。
+
+![wsl](/docker/wsl.png)
+
+```bash
+docker volume create portainer_data
+docker run -d -p 9000:9000 -p 8000:8000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer
+```
+
+然后访问 http://localhost:9000, 就可以进入 portainer 的设置界面。
+
+## Config
+
+### WSL
+
+在 WSL 上开启 docker 守护进程：
+
+[参考文档](https://docs.docker.com/desktop/windows/wsl/)
+
+将 WSL 转化为 WSL2：
+
+```powershell
+wsl.exe -l -v
+
+wsl.exe --set-version (distro name) 2
+
+wsl.exe --set-default-version 2
+
+wsl --set-default <distro name> .
+
+```
+
+下面这一步可以省略，如果不是 WSL 需要手动开启：
+
+```bash
+export DOCKER_HOST=tcp://127.0.0.1:2375
+```
+
+
+### 切换镜像仓到国内
+
+```json
+  "registry-mirrors": [
+    "https://registry.docker-cn.com",
+    "https://dockerhub.azk8s.cn",
+    "https://reg-mirror.qiniu.com",
+    "http://hub-mirror.c.163.com",
+    "https://docker.mirrors.ustc.edu.cn"
+  ]
+```
 
 
 ## Installation
