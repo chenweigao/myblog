@@ -31,6 +31,7 @@ module.exports = {
   plugins: [
       'vuepress-plugin-smooth-scroll',
       // 'cursor-effects',
+      'pangu',
       ['@vuepress/pwa',{
         serviceWorker: true,
         updatePopup: true

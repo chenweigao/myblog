@@ -7,7 +7,7 @@ categories:
  - Python
 ---
 
-总结一下 Pytest 相关的基础用法和学习心得。
+总结一下 Pytest 和 Python Unitest 相关的基础用法和学习心得。
 
 <!-- more -->
 
@@ -345,3 +345,239 @@ pytest 中有很多实用的内置固件，在这记录一下，具体可以查�
 - recwarn
 
     `recwarn` 用于捕获程序中 warnings 产生的警告。
+
+## 单元测试
+
+### 基本例子
+
+举个基本的用例：
+
+```python
+import unittest
+
+class WidgetTestCase(unittest.TestCase):
+    def setUp(self):
+        self.widget = Widget('The widget')
+
+    def test_default_widget_size(self):
+        self.assertEqual(self.widget.size(), (50,50),
+                         'incorrect default size')
+
+    def test_widget_resize(self):
+        self.widget.resize(100,150)
+        self.assertEqual(self.widget.size(), (100,150),
+                         'wrong size after resize')
+    
+    def tearDown(self):
+        self.widget.dispose()
+```
+
+### skip 测试用例
+
+以下内容均可以跳过：
+
+```python
+class Test(unittest.TestCase):
+
+    @unittest.skip("skip it")
+    def test_1(self):
+        print('1')
+
+    @unittest.skipIf(1 < 2, '前面条件成立，跳过')
+    def test_2(self):
+        print('2')
+
+    @unittest.skipUnless(1 > 2, '前面条件为 False 跳过')
+    def test_3(self):
+        print('3')
+```
+
+### DDT 数据驱动
+
+> DDT: Data Drive Test
+
+```python
+import unittest
+from ddt import ddt
+from ddt import data
+
+
+@ddt
+class DdtTest(unittest.TestCase):
+    def setUp(self) -> None:
+        print('start...')
+
+    def tearDown(self) -> None:
+        print('end!')
+
+    @data('a', 'b', 'c')
+    def test_1(self, txt):
+        print(txt)
+
+
+if __name__ == '__main__':
+    unittest.main(verbosity=2)
+    """
+    start...
+    a
+    end!
+    start...
+    b
+    end!
+    start...
+    c
+    end!
+    """
+```
+
+从上面的例子中，有几点需要注意的：
+
+1. `setUp` 和 `tesrDown` 这两个在每一次测试用例执行的时候都会执行一遍。所以可以看到，我们使用数据驱动了 3 个测试用例，这两个也被执行了三次。
+
+2. 也可以将测试的数据用在文件中，然后使用文件读取的方式进行读取，而后 unpack，其使用的方式类似于：
+
+    ```python
+    @file_data('ddt.xml')
+    def test_xx(self, txt):
+        print(txt)
+    ```
+
+3. 如果需要 unpack 的话，就如下所示：
+
+    ```python
+    # coding=UTF-8
+    import unittest
+
+    import ddt
+
+
+    def read_file():
+        params = []
+        file = open('test.txt', 'r', encoding='gbk')
+        for line in file.readlines():
+            params.append(line.strip('\n').split(','))
+        return params
+
+
+    @ddt.ddt()
+    class Test(unittest.TestCase):
+        def setUp(self) -> None:
+            print('start...')
+
+        def tearDown(self) -> None:
+            print('end!')
+
+        @ddt.data(*read_file())
+        @ddt.unpack
+        def test_1(self, id, name):
+            print(id, name)
+
+
+    if __name__ == '__main__':
+        unittest.main()
+    ```
+
+    给出要读取文件的内容：
+    
+    `test.txt`
+    ```txt
+    1,name1
+    2,zhanshen
+    3,wait
+    ```
+### DDT + YML
+
+:::tip Python 安装 yml 扩展
+`pip install PyYaml`
+:::
+
+
+可以配合 DDT 和 YML 文件来实现数据驱动：
+
+YML 的文件定义不同，在 Python 中解析出来的结果也不同：
+
+- 嵌套的字典
+- 列表
+
+分别进行说明：
+
+1.  字典
+
+`dicts.yml` 的格式如下所示：
+
+
+<RecoDemo :collapse="false">
+<template slot="code-yml">
+  <<< @/docs/.vuepress/code/python/dicts.yml
+</template>
+</RecoDemo>
+
+如果使用 Python 进行解析的话，代码可以如下所示：
+
+```python
+# coding=UTF-8
+import yaml
+
+
+def read_file():
+    file = open('dicts.yml', 'r', encoding='utf-8')
+    dic = yaml.load(file, Loader=yaml.FullLoader)
+    print(dic)
+```
+
+会输出一个字典：`{'name': 'weigao', 'age': 24, 'data': {'a': 1, 'b': 2, 'c': 3, 'd': 4}, 'list': ['a', 'b', 'c', 'd']}`
+
+方便观看，转换成 JSON：
+
+<RecoDemo :collapse="false">
+<template slot="code-json">
+  <<< @/docs/.vuepress/code/python/dicts.json
+</template>
+</RecoDemo>
+
+
+2. 列表
+
+其解析如下所示：
+
+```python
+import unittest
+
+import ddt
+
+
+@ddt.ddt
+class Test(unittest.TestCase):
+    def setUp(self) -> None:
+        print('start...')
+
+    def tearDown(self) -> None:
+        print('end!')
+
+    @ddt.file_data('list.yml')
+    def test_yml(self, **kwargs):
+        print(kwargs['name'],  kwargs['age'])
+
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+`list.yml` 的文件内容为：
+
+<RecoDemo :collapse="false">
+<template slot="code-yml">
+  <<< @/docs/.vuepress/code/python/list.yml
+</template>
+</RecoDemo>
+
+可以解析出来，输出如下：
+
+```txt
+start...
+weigao 24
+end!
+start...
+zhanshen 10089
+end!
+```
