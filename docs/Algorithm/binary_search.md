@@ -1,5 +1,5 @@
 ---
-title: Binary Search 二分查找总结
+title: Binary Search 二分搜索总结
 date: 2019-9-12
 tags:
  - algorithm
@@ -10,10 +10,134 @@ categories:
 
 ## Summary
 
+### 1. 二分搜索模板
+
+### 1.1 基本的二分搜索算法 
+
+1. 手工实现
+
+   ```python
+   class Solution:
+       def search(self, nums: List[int], target: int) -> int:
+           if not nums:
+               return -1
+           l, r = 0, len(nums) - 1
+           while l <= r:
+               mid = l + (r - l) // 2
+               if nums[mid] < target:
+                   l = mid + 1
+               elif nums[mid] > target:
+                   r = mid - 1
+               else:
+                   return mid
+   
+           return -1
+   ```
+
+2. 使用 Python `bisect` 库
+
+   ```python
+       def search_2(self, nums: List[int], target: int) -> int:
+           res = bisect.bisect_left(nums, target)
+           if res != len(nums) and nums[res] == target:
+               return res
+           return -1
+   ```
+
+### 1.2 寻找左侧边界的二分搜索
+
+1. 手工实现
+
+   ```python
+       def search(self, nums: List[int], target: int) -> int:
+           l, r = 0, len(nums) - 1
+           while l <= r:
+               mid = l + (r - l) // 2
+               if nums[mid] < target:
+                   l = mid + 1
+               elif nums[mid] > target:
+                   r = mid - 1
+               elif nums[mid] == target:
+                   # 暂时不能返回，需要收缩右边界，锁定左侧边界
+                   r = mid - 1
+           # 检查越界情况。注意这边下面两个条件是二选一的
+           if l >= len(nums) or nums[l] != target:
+               return -1
+           return l
+   ```
+
+2. 使用 `bisect`
+
+   手工实现在很多情况下都需要调试，比较慢，因此使用 `bisect` 比较方便，其使用方式如下：
+
+   - 找到 *Find rightmost value less than target*：找到小于目标元素，离目标元素最近的元素（肯定在左边）。如 `[-1, 1, 3, 5, 9, 12]` 目标元素 2, 则返回了 1，表示 2 可以插入到 1 和 3 之间。对应的下标 `res - 1` 就是 1 的下标。
+
+     ```python
+     def search2(self, nums: List[int], target: int) -> int:
+             res = bisect.bisect_left(nums, target)
+             if res:
+                 return nums[res - 1]
+             return -1
+     ```
+
+   - 找到 *Find rightmost value less than or equal to target*
+
+     ```python
+         def search3(self, nums: List[int], target: int) -> int:
+             res = bisect.bisect_right(nums, target)
+             if res:
+                 return nums[res - 1]
+             return -1
+     ```
+
+   ### 1.3 寻找右侧边界的二分搜索
+
+   1. 手工实现
+
+      ```python
+          def search(self, nums: List[int], target: int) -> int:
+              l, r = 0, len(nums) - 1
+              while l <= r:
+                  mid = l + (r - l) // 2
+                  if nums[mid] < target:
+                      l = mid + 1
+                  elif nums[mid] > target:
+                      r = mid - 1
+                  elif nums[mid] == target:
+                      # 暂时不能返回，需要收缩左边界，锁定右侧边界
+                      l = mid + 1
+              # 检查越界情况。注意这边下面两个条件是二选一的
+              if r < 0 or nums[l] != target:
+                  return -1
+              return r
+      ```
+
+   2. 使用库
+
+      ```python
+      def find_gt(a, x):
+          'Find leftmost value greater than x'
+          i = bisect_right(a, x)
+          if i != len(a):
+              return a[i]
+          raise ValueError
+      
+      def find_ge(a, x):
+          'Find leftmost item greater than or equal to x'
+          i = bisect_left(a, x)
+          if i != len(a):
+              return a[i]
+          raise ValueError
+      ```
+
+### 1.3 参考
+
 在二分查找中，要特别注意边界的问题，二分查找的边界，分为 `[left, right)` 和 `[left, right]`.
 
 - 初始化时，形式为 `left = 0, right = n`, 其中 `n` 表示数组的长度，由于数组取不到下标 `n`, 故为左闭右开区间；
 - 初始化时，形式为 `left = 0, right = n - 1`, 故为左闭右闭区间。
+
+
 
 :::danger bug!!!
 对于左闭右开区间(`[left, right)` )而言，应注意：
