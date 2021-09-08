@@ -63,7 +63,7 @@ print("In global scope:", spam)
 上述代码的理解应该包括一下几点：
 
 1. 当内部作用域想修改外部作用域的变量时，就要用到 **global** 和 **nonlocal** 关键字了。如 `do_local()` 中的 `nolocal` 关键字可以成功修改 *spam("test spam")*  的值。
-    
+   
     举例而言：
     ```python
     #!/usr/bin/python3
@@ -99,15 +99,14 @@ print("In global scope:", spam)
     上面的 `scope_test()` 执行后，才修改到了函数外部的全局变量。
 
 :::tip L –> E –> G –> B
+
 虽然作用域是静态地确定的，但它们会被动态地使用。 在执行期间的任何时刻，会有 3 或 4 个命名空间可被直接访问的嵌套作用域:
 
 - Local: 最先搜索的最内部作用域包含局部名称
-
 - Encrosing: 从最近的封闭作用域开始搜索的任何封闭函数的作用域包含非局部名称，也包括非全局名称
-
 - Global: 倒数第二个作用域包含当前模块的全局名称
-
 - Built-in: 最外面的作用域（最后搜索）是包含内置名称的命名空间
+
 :::
 
 ### 2. Class
@@ -147,10 +146,124 @@ def reverse(data):
         yield data[index]
 ```
 
+### 3. 函数继承
+
+1. 如果子类没有定义自己的初始化函数，那么父类的初始化函数会被默认调用；但是如果这种情况下实例化子类的对象，应该传入父类的初始化参数，否则会报错；
+
+2. 如果子类定义了自己的初始化函数，并且没有显式调用父类的初始化函数，则父类的属性不会被初始化；
+
+   如果子类定义了自己的初始化函数，并且显式调用了父类的初始化函数，则子类和父类的属性都会被初始化；
+
+3. 如果在子类中需要父类的构造方法就需要显式地调用父类的构造方法，或者不重写父类的构造方法。
+
+   子类不重写 **__init__**，实例化子类时，会自动调用父类定义的 **__init__**。
+
+    ```python
+    class Father(object):
+        def __init__(self, name):
+            self.name=name
+            print ( "name: %s" %( self.name) )
+        def getName(self):
+            return 'Father ' + self.name
+   
+    class Son(Father):
+        def getName(self):
+            return 'Son '+self.name
+   
+    if __name__=='__main__':
+        son=Son('runoob')
+        print ( son.getName() )
+   
+    # name: runoob
+    # Son runoob
+    ```
+
+4. 如果重写了**__init__** 时，实例化子类，就不会调用父类已经定义的 **__init__**，语法格式如下：
+
+   ```python
+   class Father(object):
+       def __init__(self, name):
+           self.name=name
+           print ( "name: %s" %( self.name) )
+       def getName(self):
+           return 'Father ' + self.name
+    
+   class Son(Father):
+       def __init__(self, name):
+           print ( "hi" )
+           self.name =  name
+       def getName(self):
+           return 'Son '+self.name
+    
+   if __name__=='__main__':
+       son=Son('runoob')
+       print ( son.getName() )
+       
+   # hi
+   # Son runoob
+   ```
+
+5. 如果重写了**__init__** 时，要继承父类的构造方法，可以使用 **super** 关键字：`super(子类，self).__init__(参数1，参数2，....)` 或者 `父类名称.__init__(self,参数1，参数2，...)`
+
+   ```python
+   class Father(object):
+       def __init__(self, name):
+           self.name=name
+           print ( "name: %s" %( self.name))
+       def getName(self):
+           return 'Father ' + self.name
+    
+   class Son(Father):
+       def __init__(self, name):
+           super(Son, self).__init__(name)
+           print ("hi")
+           self.name =  name
+       def getName(self):
+           return 'Son '+self.name
+    
+   if __name__=='__main__':
+       son=Son('runoob')
+       print ( son.getName() )
+       
+   # name: runoob
+   # hi
+   # Son runoob
+   ```
+
+   拓展：如下代码可以看出来，子类也通过 `super` 继承了父类的属性：
+
+   <RecoDemo :collapse="false">
+
+   <template slot="code-python">
+
+    <<< @/docs/.vuepress/code/python/father-son-class.py
+
+   </template>
+
+   </RecoDemo>
+   
+   > 在super机制里，可以保证公共父类仅被执行一次，至于执行的顺序，是按照**[MRO（Method Resolution Order）](https://www.pynote.net/archives/3500)**方法解析顺序 进行的。
+   >
+   > 简单理解，MRO顺序就是**代码中的书写顺序**
+   
+   
 
 ### P1. 参考文献
 
 1. [Pyton 作用域与命名空间，官方文档](https://docs.python.org/zh-cn/3/tutorial/classes.html)
+
+## Python 文件操作
+
+| 模式 | 操作              | 文件不存在 | 是否覆盖 |
+| ---- | ----------------- | ---------- | -------- |
+| r    | read 只读         | 报错       | -        |
+| w    | write 可写        | 创建       | 是       |
+| a    | append 文件后追加 | 创建       | 否 追加  |
+| r+   | 可读 可写         | 报错       | 是       |
+| w+   | 可读 可写         | 创建       | 是       |
+| a+   | 可读 可写         | 创建       | 否 追加  |
+
+
 
 ## Data Struct
 
@@ -236,7 +349,7 @@ what you can see is that **[2,3,4]** is replaced by **[20,30]**
 
     ```py
     from copy import deepcopy
-
+    
     def min_n(lst, n=1):
         numbers = deepcopy(lst)
         numbers.sort()
@@ -271,10 +384,10 @@ what you can see is that **[2,3,4]** is replaced by **[20,30]**
   ```python
   >>> dp
   # deque([10, 30, 20, 10, 3, 4, 5, 6, 7, 8], maxlen=10)
-
+  
   >>> dp.appendleft([1, 2])
   # deque([[1, 2], 10, 30, 20, 10, 3, 4, 5, 6, 7], maxlen=10)
-
+  
   >>> dp.extendleft([1, 2])
   # deque([2, 1, [1, 2], 10, 30, 20, 10, 3, 4, 5], maxlen=10)
   ```
@@ -779,13 +892,13 @@ with request.urlopen('http://118.24.241.17/path.json') as f:
 
 `data_json` is the json file we need.
 
-## Regular Expression - re
+## Regular Expression - re 正则表达式
 
-[参考这篇教程](https://deerchao.net/tutorials/regex/regex.htm)
+[参考这篇教程：正则表达式30分钟入门教程](https://deerchao.net/tutorials/regex/regex.htm)
 
 在 Python 中，如果想使用正则表达式：
 
-```py
+```python
 import re
 re.match(r'^[1-9]\d{4,11}$', nums)
 
@@ -793,6 +906,18 @@ pattern = re.compile(r'some regular expression')
 re.findall(pattern, sentence)
 # find all matched of pattern in sentence
 ```
+
+>  第三方模块 [regex](https://pypi.org/project/regex/) , 提供了与标准库 [`re`](https://docs.python.org/zh-cn/3/library/re.html#module-re) 模块兼容的 API 接口，同时，还提供了更多功能和更全面的 Unicode 支持。
+
+```python
+prog = re.compile(pattern)
+result = prog.match(string)
+
+# 等价于
+result = re.match(pattern, string)
+```
+
+
 
 ## requests
 
