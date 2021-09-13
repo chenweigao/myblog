@@ -116,7 +116,7 @@ print("In global scope:", spam)
 #### 2.1 self
 
 > 方法的特殊之处就在于实例对象会作为函数的第一个参数被传入。 在我们的示例中，调用 x.f() 其实就相当于 MyClass.f(x)。 总之，调用一个具有 n 个参数的方法就相当于调用再多一个参数的对应函数，这个参数值为方法所属实例对象，位置在其他参数之前。
-
+>
 > 方法的第一个参数常常被命名为 self。 这也不过就是一个约定: self 这一名称在 Python 中绝对没有特殊含义。
 
 #### 2.2 给类添加迭代器
@@ -167,15 +167,15 @@ def reverse(data):
             print ( "name: %s" %( self.name) )
         def getName(self):
             return 'Father ' + self.name
-   
+
     class Son(Father):
         def getName(self):
             return 'Son '+self.name
-   
+
     if __name__=='__main__':
         son=Son('runoob')
         print ( son.getName() )
-   
+
     # name: runoob
     # Son runoob
     ```
@@ -214,7 +214,7 @@ def reverse(data):
            print ( "name: %s" %( self.name))
        def getName(self):
            return 'Father ' + self.name
-    
+
    class Son(Father):
        def __init__(self, name):
            super(Son, self).__init__(name)
@@ -222,11 +222,11 @@ def reverse(data):
            self.name =  name
        def getName(self):
            return 'Son '+self.name
-    
+
    if __name__=='__main__':
        son=Son('runoob')
        print ( son.getName() )
-       
+
    # name: runoob
    # hi
    # Son runoob
@@ -243,18 +243,25 @@ def reverse(data):
    </template>
 
    </RecoDemo>
-   
+
    > 在super机制里，可以保证公共父类仅被执行一次，至于执行的顺序，是按照**[MRO（Method Resolution Order）](https://www.pynote.net/archives/3500)**方法解析顺序 进行的。
    >
    > 简单理解，MRO顺序就是**代码中的书写顺序**
-   
-   
+
+
 
 ### P1. 参考文献
 
 1. [Pyton 作用域与命名空间，官方文档](https://docs.python.org/zh-cn/3/tutorial/classes.html)
 
 ## Python 文件操作
+
+### Q&A
+
+1. `a` 是可访问可修改的吗？
+   不是。`a`表示在文件后追加写，append。`a+` 既可以追加到文件中，也可以读取文件中的内容，而 `a` 是不可以读操作的。
+
+### Summary
 
 | 模式 | 操作              | 文件不存在 | 是否覆盖 |
 | ---- | ----------------- | ---------- | -------- |
@@ -269,25 +276,25 @@ def reverse(data):
 
 > The argument mode points to a string beginning with one of the following sequences (Additional characters may follow these sequences.):
 
--  `r`   Open text file for **reading**.  The stream is positioned at the
+- `r`   Open text file for **reading**.  The stream is positioned at the
          **beginning** of the file.
 
--  `r+`  Open for **reading and writing**.  The stream is positioned at the
+- `r+`  Open for **reading and writing**.  The stream is positioned at the
          **beginning** of the file.
 
--  `w`   Truncate file to **zero length** or create text file for **writing**.
+- `w`   Truncate file to **zero length** or create text file for **writing**.
          The stream is positioned at the **beginning** of the file.
 
--  `w+`  Open for **reading and writing**.  The file is created if it does not
+- `w+`  Open for **reading and writing**.  The file is created if it does not
          exist, otherwise it is **truncated**.  The stream is positioned at
          the **beginning** of the file.
 
--  `a` Open for **writing**.  The file is created if it does not exist.  The
+- `a` Open for **writing**.  The file is created if it does not exist.  The
          stream is positioned at the **end** of the file.  Subsequent writes
          to the file will always end up at the then current end of file,
          irrespective of any intervening fseek(3) or similar.
 
--  `a+`  Open for **reading and writing**.  The file is created if it does not
+- `a+`  Open for **reading and writing**.  The file is created if it does not
          exist.  The stream is positioned at the **end** of the file.  Subse-
          quent writes to the file will always end up at the then current
          end of file, irrespective of any intervening fseek(3) or similar.
