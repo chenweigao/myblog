@@ -63,11 +63,12 @@ print("In global scope:", spam)
 上述代码的理解应该包括一下几点：
 
 1. 当内部作用域想修改外部作用域的变量时，就要用到 **global** 和 **nonlocal** 关键字了。如 `do_local()` 中的 `nolocal` 关键字可以成功修改 *spam("test spam")*  的值。
-   
+
     举例而言：
+
     ```python
     #!/usr/bin/python3
-    
+
     def outer():
         num = 10
         def inner():
@@ -83,16 +84,17 @@ print("In global scope:", spam)
 2. `global` 关键字一般是用来修改函数外部的变量（全局变量）。
 
     举例而言：
+
     ```python
     #!/usr/bin/python3
-    
+
     num = 1
     def fun1():
         global num  # 需要使用 global 关键字声明
         print(num)  # 取到全局变量 1
-        num = 123   
+        num = 123
         print(num)  # 123 成功给全局变量赋值
-    fun1()          
+    fun1()
     print(num)      # 123 全局变量值被修改
     ```
 
@@ -263,34 +265,32 @@ def reverse(data):
 | w+   | 可读 可写         | 创建       | 是       |
 | a+   | 可读 可写         | 创建       | 否 追加  |
 
-参考 BCD `fopen()` 手册：
+### BCD `fopen()` 手册
 
-> The argument mode points to a string beginning with one of the following
- sequences (Additional characters may follow these sequences.):
+> The argument mode points to a string beginning with one of the following sequences (Additional characters may follow these sequences.):
 
- ``r''   Open text file for reading.  The stream is positioned at the
-         beginning of the file.
+-  `r`   Open text file for **reading**.  The stream is positioned at the
+         **beginning** of the file.
 
- ``r+''  Open for reading and writing.  The stream is positioned at the
-         beginning of the file.
+-  `r+`  Open for **reading and writing**.  The stream is positioned at the
+         **beginning** of the file.
 
- ``w''   Truncate file to zero length or create text file for writing.
-         The stream is positioned at the beginning of the file.
+-  `w`   Truncate file to **zero length** or create text file for **writing**.
+         The stream is positioned at the **beginning** of the file.
 
- ``w+''  Open for reading and writing.  The file is created if it does not
-         exist, otherwise it is truncated.  The stream is positioned at
-         the beginning of the file.
+-  `w+`  Open for **reading and writing**.  The file is created if it does not
+         exist, otherwise it is **truncated**.  The stream is positioned at
+         the **beginning** of the file.
 
- ``a''   Open for writing.  The file is created if it does not exist.  The
-         stream is positioned at the end of the file.  Subsequent writes
+-  `a` Open for **writing**.  The file is created if it does not exist.  The
+         stream is positioned at the **end** of the file.  Subsequent writes
          to the file will always end up at the then current end of file,
          irrespective of any intervening fseek(3) or similar.
 
- ``a+''  Open for reading and writing.  The file is created if it does not
-         exist.  The stream is positioned at the end of the file.  Subse-
+-  `a+`  Open for **reading and writing**.  The file is created if it does not
+         exist.  The stream is positioned at the **end** of the file.  Subse-
          quent writes to the file will always end up at the then current
          end of file, irrespective of any intervening fseek(3) or similar.
-
 
 ## Data Struct
 
