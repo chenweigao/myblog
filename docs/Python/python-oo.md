@@ -173,6 +173,16 @@ if __name__ == '__main__':
 # C
 # A
 ```
+ 
+如果使用 super 类的方式调用父类初始化方法，这种写法不与父类类名绑定，且可以保证菱形继承场景下，创建一个子类对象仅调用顶层父类初始化函数一次。
+
+举例如下：
+
+<RecoDemo :collapse="false">
+<template slot="code-python">
+  <<< @/docs/.vuepress/code/python/test-class2.py
+</template>
+</RecoDemo>
 
 ### 3.2 super()
 
