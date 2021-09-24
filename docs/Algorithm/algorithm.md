@@ -1,6 +1,6 @@
 ---
 title:  Algorithm Analysis and Design - 算法分析与设计
-date: 2019-8-6
+date: 2019-08-06
 tags:
  - algorithm
 categories:
