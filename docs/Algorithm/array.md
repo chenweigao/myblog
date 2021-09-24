@@ -1,6 +1,6 @@
 ---
 title:  Array 问题编程
-date: 2019-9-17
+date: 2019-09-17
 tags:
  - algorithm
  - leetcode
