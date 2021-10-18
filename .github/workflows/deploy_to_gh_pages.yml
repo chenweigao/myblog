@@ -18,6 +18,7 @@ jobs:
         TARGET_BRANCH: gh_pages
         BUILD_SCRIPT: yarn && yarn build
         BUILD_DIR: public/
+        CNAME: vueblog.weigao.cc
      
     - name: Lint Markdown
         # You may pin to the exact commit or the version.
