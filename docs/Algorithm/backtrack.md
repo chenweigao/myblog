@@ -417,7 +417,29 @@ class Solution:
 >  	[1,4],
 >]
 
+```python
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        res = []
 
+        nums = [i + 1 for i in range(n)]
+
+        def back_track(path: List, begin):
+            if len(path) == k:
+                res.append(path[:])
+                return
+
+            for i in range(begin, len(nums)):
+                if i > begin and nums[i] == nums[i - 1]:
+                    continue
+
+                path.append(nums[i])
+                back_track(path, i + 1)
+                path.pop()
+
+        back_track([], 0)
+        return res
+```
 
 
 
