@@ -305,3 +305,119 @@ back_track(A, cur_sum, i + 1)
 
 **（需要加深理解，不一定正确。）**
 
+### LC46 全排列
+
+在解决了上面的那些问题以后，全排列问题就变得简单了，全排列问题举例如下：
+
+>给定一个不含重复数字的数组 `nums` ，返回其 **所有可能的全排列** 。你可以 **按任意顺序** 返回答案。
+>
+>输入：nums = [1,2,3]
+>
+>输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+
+该题目使用回溯可以很方便的求解：
+
+```python
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        res = []
+
+        def back_track(path):
+            if len(path) == len(nums):
+                res.append(path[:])
+                return
+            
+            for i in range(len(nums)):
+                if nums[i] in path:
+                    continue
+
+                path.append(nums[i])
+                back_track(path)
+                path.pop()
+
+        back_track([])
+        return res
+```
+
+全排列是经典的回溯问题，套用回溯模板可以很轻松求解。
+
+### LC47 全排列II
+
+>给定一个可包含重复数字的序列 `nums` ，**按任意顺序** 返回所有不重复的全排列。
+>
+>输入：nums = [1,1,2]
+>
+>输出：
+>[[1,1,2],
+> [1,2,1],
+> [2,1,1]]
+
+解法如下：
+
+```python
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        res = []
+
+        def back_track(path: List, visited: List):
+            if len(path) == len(nums):
+                res.append(path[:])
+                return
+
+            for i in range(len(nums)):
+                if visited[i] == 1:
+                    continue
+				
+                # visited[i - 1] == 1 在该题目中同理，但是性能较差
+                if i > 0 and nums[i] == nums[i - 1] and visited[i - 1] == 0:
+                    continue
+
+                visited[i] = 1
+                path.append(nums[i])
+                back_track(path, visited)
+                visited[i] = 0
+                path.pop()
+
+        nums.sort()
+
+        visited = [0 for _ in nums]
+        back_track([], visited)
+        return res
+```
+
+
+
+这道题目不同于*全排列*的点在于：
+
+- 集合中有重复的元素，但是最后的结果中不能有重复的组合。我们需要对结果进行去重（直观的思路是用set，但是容易超时）
+- nums[i] 和 nums[i - 1] 可以理解为同一层的当前选项和同一层的前一个选项
+- 该题目中有两个变量去重，如果仅有`num[i] == num[i-1]`条件存在，递归时会把相同元素去除，显然不是我们想要的，所以加上了 `vistied`，防止漏掉元素
+- 如果 `visited[i - 1] == 1`，说明在同一层，并且 `num[i] == num[i-1]`，所有可能的组合都早已被这一层第一次出现的那个相同数穷尽了，不需要再画蛇添足。
+
+:::warning todo
+
+需要拿 iPad 画图分析一下 visited[i - 1] == 1 和 visited[i - 1] == 0 的剪枝差异，可以参考 [题解](https://leetcode-cn.com/problems/permutations-ii/solution/dai-ma-sui-xiang-lu-dai-ni-xue-tou-hui-s-ki1h/)
+
+:::
+
+### LC77 组合
+
+>给定两个整数 `n` 和 `k`，返回范围 `[1, n]` 中所有可能的 `k` 个数的组合。
+>
+>你可以按 **任何顺序** 返回答案。
+>
+>输入：n = 4, k = 2
+>输出：
+>[
+>  	[2,4],
+>  	[3,4],
+>  	[2,3],
+>  	[1,2],
+>  	[1,3],
+>  	[1,4],
+>]
+
+
+
+
+
