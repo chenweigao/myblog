@@ -140,8 +140,44 @@ class Solution:
         return count
 ```
 
-
 ## BFS
+
+### LC111 二叉树的最小深度
+
+[二叉树的最小深度](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/)
+
+其使用 BFS 的解法如下：
+
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        
+        queue = collections.deque()
+        first_node = (root, 1)
+        queue.append(first_node)
+
+        while queue:
+            node, depth = queue.popleft()
+            # 判断是否到达终点，终止条件
+            if not node.left and not node.right:
+                return depth
+            if node.left:
+                queue.append((node.left, depth + 1))
+            if node.right:
+                queue.append((node.right, depth + 1))
+
+        return 0
+```
+
+
 
 ### LC841. 钥匙和房间
 
