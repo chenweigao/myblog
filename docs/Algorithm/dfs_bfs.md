@@ -285,6 +285,53 @@ class Solution:
 
 除此之外，该题目还存在 DFS 解法，可以参考上文。
 
+### LC102 二叉树的层序遍历
+
+[102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+二叉树的层序遍历也会使用到 BFS 的思想，这个题目存在以下几个难点：
+
+1. 如何构造最终的结果，即类似于 `[[3], [9,20], [15,7]]` 这样的 List of List 的形式？
+2. 能否继续使用上面的解法模板来求解这个问题？模板是否具有普适性？
+
+接下来看第一版本的代码：
+
+```python
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        q = collections.deque([root])
+        res = []
+        while q:
+            size = len(q)
+            tmp = []
+            for _ in range(size):
+                # 在 for 循环中把 q 这个队列拿空
+                # 第一次 for 迭代循环的是 root 节点
+                node = q.popleft()
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+                tmp.append(node.val)
+
+            if tmp:
+                res.append(tmp)
+```
+
+可以看出：
+
+1. 在每次迭代中，我们都保证了把同一层的元素进行迭代；即队列中存储的元素永远是在同一层的元素，然后计算出这些元素的个数，用 for 循环逐一进行遍历。
+
+   ::: warning ❗❗❗ BFS 为什么要使用队列？
+
+   在这里我理解了为什么 BFS 要使用队列这个数据结构，我们用 for 循环逐一进行遍历的时候，还没被遍历到的“上一层”元素都是在队列头部的，使用队列能保证这些上一层元素都被“踢”出去，而不影响本层新进来的元素。
+
+   :::
+
+2. 这个题目的关键就是用 for 循环保证了同一层元素的遍历。
+
 ### LC841. 钥匙和房间
 
 下面是上述问题的 BFS 解法：
