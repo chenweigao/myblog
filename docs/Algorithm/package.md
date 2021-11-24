@@ -6,6 +6,7 @@ tags:
  - dp
 categories:
  - Algorithm
+
 ---
 
 ## 概览
@@ -62,6 +63,83 @@ $F[i,v] = max(f[i-1, v], f[i-1, v-C_i] + W_i)$
 
 1. 不放第 $i$ 件物品，问题等价于 **前 $i-1$ 件物品放入容量为 $v$ 的背包中**；
    1. 放第 $i$ 件物品，问题等价于 **前 $i-1$ 件物品放入剩下容量为 $v - C_i$ 的背包中，再加上放第 $i$ 件物品的重量 $W_i$**
+
+### 例题 经典背包问题
+
+我们首先要会求解经典背包问题，举例来说：
+
+背包容量：size = 90
+
+每个物品的重量：costs = [71, 69, 1]
+
+每个物品的价值：values = [100, 1, 2]
+
+我们要求解在装更可能多的物品的条件下，使得背包内物品价值的总值最大。
+
+
+
+我们使用二维 dp 可以写出如下代码：
+
+```python
+class Solution:
+    def solution(self, weights, values, size):
+        if not size:
+            return 0
+
+        n = len(weights)
+        # 我们定义 dp 数组 dp[i][w], 对于前 i 个物品，当前背包容量为 w，可以装的最大价值是 dp[i][w]
+        dp = [[0] * (size + 1) for _ in range(n)]
+        # 循环中遍历物品
+        for i in range(1, n):
+            # 内层循环遍历背包容量
+            # for j in range(size + 1) 等同
+            for j in range(size, weights[i] - 1, -1):
+                # 当前背包装不下
+                if weights[i] > j:
+                    dp[i][j] = dp[i - 1][j]
+                else:
+                    dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weights[i]] + values[i])
+        return dp[n - 1][size]
+```
+
+
+
+在上述代码中，我们踩了几个坑：
+
+1. 二维 DP 数组的定义，`dp = [[0] * (size + 1) for _ in range(n)]` 中 `size + 1` 表示列，`n` 表示行。
+
+   🆚🆚🆚🆚🆚 如果这样比较难记忆，不如直接使用 numpy 去定义，非常方便：`dp = np.zeros(shape=(n, size + 1))`.
+
+2. 对于 `dp `数组的定义，我们可以理解为：`dp[i][j]` 的含义为前 `i` 个物品，当前背包可用容量为 `j`，当前装下来的总价值
+3. 对于递推公式，是一个经典的递推，不过多解释
+4. ❗🔴🔴🔴 有一点需要特别注意，那就是两重 for 循环的遍历细节。
+   1. 第一重从 1 开始正向遍历
+   2. 第二重遍历是和背包的总容量有关的，我们从 0 开始遍历到背包的容量为止；我们也可以从背包的容量遍历到当前要放的物品的重量停止，因为再往下就没有意义了。这两种遍历方式在本题中都是 OK 的。
+
+🧡💛💚💙 优化
+
+我们靠二维 DP 的方法求解，加深理解以后，我们可以套公式写出一维 DP 的求解，套用公式的要点在于：
+
+1. 0-1 背包倒着循环，不考虑物品顺序，物品循环放在外侧
+2. 求解的是最大最小值问题，递推公式`dp[i] = max(dp[i], dp[i-num] + 1)`
+
+```python
+    def solution2(self, weights, values, size):
+        if not size:
+            return 0
+
+        # 我们拿容量去定义 dp
+        dp = [0] + [0] * size
+
+        # 按照背包问题的套路，遍历物品
+        for idx, weight in enumerate(weights):
+            for i in range(size, weight - 1, -1):
+                dp[i] = max(dp[i], dp[i - weight] + values[idx])
+
+        return dp[-1]
+```
+
+如此，我们就进行了统一。
 
 ### 例题 LC474：1和0
 
