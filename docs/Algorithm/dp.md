@@ -207,5 +207,52 @@ class Solution:
 
 
 
+### LC329 矩阵中的最长递增路径
+
+[329. 矩阵中的最长递增路径](https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/)
+
+- 由于同一个单元格对应的最长递增路径的长度是固定不变的，因此可以使用记忆化的方法进行优化；
+- 用矩阵作为缓存矩阵，已经计算过的单元格的结果存储到缓存矩阵中。（在python中，可以直接使用 `@lru_cache(None)`, 实现较为简单）
+
+记忆化搜索实现如下：
+
+```python
+class Solution:
+    def __init__(self, *args, **kwargs):
+        self.dirs = [
+            [0, 1], [1, 0], [0, -1], [-1, 0]
+        ]
+        self.m = None
+        self.n = None
+
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        if not matrix:
+            return 0
+        self.m = len(matrix)
+        self.n = len(matrix[0])
+        ans = 0
+
+        memo = [[0] * self.n for _ in range(self.m)]
+
+        def dfs(i, j):
+            if memo[i][j] != 0:
+                return memo[i][j]
+
+            memo[i][j] = 1
+            for d in self.dirs:
+                x, y = d[0] + i, d[1] + j
+                if 0 <= x < self.m and 0 <= y < self.n and matrix[x][y] > matrix[i][j]:
+                    memo[i][j] = max(memo[i][j], dfs(x, y) + 1)
+            return memo[i][j]
+
+        for i in range(self.m):
+            for j in range(self.n):
+                if memo[i][j] != 0:
+                    ans = max(ans, memo[i][j])
+                else:
+                    ans = max(ans, dfs(i, j))
+        return ans
+```
+
 
 
