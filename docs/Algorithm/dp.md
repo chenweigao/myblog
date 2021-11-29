@@ -155,5 +155,57 @@ class Test(unittest.TestCase):
         self.assertEqual(3, res)
 ```
 
-我们在这个文章中研究记忆化搜索，所以考虑这个问题，首先按照**暴力搜索**的思路去解决。
+我们在这个文章中研究记忆化搜索，所以考虑这个问题，首先按照**暴力搜索**的思路去解决。❌❌❌ 这个目前水平不足，后续待定。
+
+我们给出求解这个问题的代码，按照经典的背包问题来求解。
+
+```python
+import unittest
+
+import numpy as np
+
+
+class Solution:
+    def solution(self, weights, values, size):
+        if not size:
+            return 0
+
+        n = len(weights)
+        # 我们定义 dp 数组 dp[i][w], 对于前 i 个物品，当前背包容量为 w，可以装的最大价值是 dp[i][w]
+        # dp = [[0] * (size + 1) for _ in range(n)]
+        dp = np.zeros(shape=(n, size + 1))
+        # 循环中遍历物品
+        for i in range(1, n):
+            # 内层循环遍历背包容量
+            # for j in range(size + 1) 等同
+            for j in range(size, weights[i] - 1, -1):
+                # 当前背包装不下
+                if weights[i] > j:
+                    dp[i][j] = dp[i - 1][j]
+                else:
+                    dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weights[i]] + values[i])
+        return dp[n - 1][size]
+```
+
+一维 DP 套用公式的解法：
+
+```python
+    def solution2(self, weights, values, size):
+        if not size:
+            return 0
+
+        # 我们拿容量去定义 dp
+        dp = [0] + [0] * size
+
+        # 按照背包问题的套路，遍历物品
+        for idx, weight in enumerate(weights):
+            for i in range(size, weight - 1, -1):
+                dp[i] = max(dp[i], dp[i - weight] + values[idx])
+
+        return dp[-1]
+```
+
+
+
+
 
