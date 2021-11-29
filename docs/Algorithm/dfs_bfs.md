@@ -7,6 +7,7 @@ tags:
  - dfs/bfs
 categories:
  - Algorithm
+
 ---
 
 📑📑📑 深度优先搜索算法
@@ -21,7 +22,7 @@ categories:
 
 ### 深度优先搜索算法
 
-英语：Depth-First-Search，DFS是一种用于遍历或搜索树或图的算法。其过程简要来说是对每一个可能的分支路径深入到不能再深入为止，而且每个结点只能访问一次.
+英语：Depth-First-Search，DFS是一种用于遍历或搜索 树或图的算法。其过程简要来说是对每一个可能的分支路径深入到不能再深入为止，而且每个结点只能访问一次.
 
 因发明「深度优先搜索算法」，约翰 · 霍普克洛夫特与罗伯特 · 塔扬在1986年共同获得计算机领域的最高奖：图灵奖。
 
@@ -39,12 +40,12 @@ Breadth-First Search，缩写为 BFS，又称为宽度优先搜索，是一种�
 
 - [Target Sum: LC494](https://leetcode.com/problems/target-sum/)
 
-| 问题                       | 链接                                                         | 类型 | 备注 |
-| -------------------------- | ------------------------------------------------------------ | ---- | ---- |
-| LC104 二叉树的最大深度 | [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) | DFS, BFS |  |
-| LC329 矩阵中的最长递增路径 | [LC 329](https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/) | DFS  |      |
-| LC841. 钥匙和房间         | https://leetcode-cn.com/problems/keys-and-rooms | DFS, BFS     |      |
-|                            |                                                              |      |      |
+| 问题                       | 链接                                                         | 类型     | 备注 |
+| -------------------------- | ------------------------------------------------------------ | -------- | ---- |
+| LC104 二叉树的最大深度     | [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/) | DFS, BFS |      |
+| LC329 矩阵中的最长递增路径 | [LC 329](https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/) | DFS      |      |
+| LC841. 钥匙和房间          | https://leetcode-cn.com/problems/keys-and-rooms              | DFS, BFS |      |
+|                            |                                                              |          |      |
 
 
 
@@ -166,6 +167,12 @@ class SolutionDFS:
 >
 > 对于每个单元格，你可以往上，下，左，右四个方向移动。 你不能在对角线方向上移动或移动到边界外（即不允许环绕）。
 
+💫💫💫 这个问题的本质是：**在有向图中寻找最长路径**。
+
+#### 深度优先搜索
+
+🈚🈚🈚 DFS解法，超出时间限制！
+
 这是一道迷宫搜索问题，可以使用 DFS 搜索，这样可以熟悉 DFS 的步骤。实现代码如下所示：
 
 <RecoDemo :collapse="false">
@@ -173,9 +180,75 @@ class SolutionDFS:
 <template slot="code-python">
   <<< @/docs/.vuepress/code/algorithm/dfs.py
 </template>
+
 </RecoDemo>
 
+上述解法非常巧妙，我们在求解迷宫类型的问题的时候，都可以定义我们的数据结构：
+
+```python
+def __init__(self, *args, **kwargs):
+    self.dirs = [
+        [0, 1], [1, 0], [0, -1], [-1, 0]
+    ]
+    self.m = None
+    self.n = None
+```
+
+分别定义方位、两个坐标，在后续的操作中可以方便很多。
+
+在这里要特别强调一下**二维矩阵的行列**：
+
+- 行：`len(matrix)`
+- 列: `len(matrix[0])`
+
+#### 记忆化深度优先搜索
+
+针对以上超时的情况，我们需要使用到一些优化方法，如🧡💛记忆化深度优先搜索💚💙：
+
+- 由于同一个单元格对应的最长递增路径的长度是固定不变的，因此可以使用记忆化的方法进行优化；
+- 用矩阵作为缓存矩阵，已经计算过的单元格的结果存储到缓存矩阵中。（在python中，可以直接使用 `@lru_cache(None)`, 实现较为简单）
+
+经过上述分析，我们了解到，其实现和深度有限搜索差距不大（Python），下面列出代码，在谢姐上有些许不同，可以加深理解：
+
+```python
+class Solution2:
+    def __init__(self, *args, **kwargs):
+        self.dirs = [
+            [0, 1], [1, 0], [0, -1], [-1, 0]
+        ]
+        self.m = None
+        self.n = None
+
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        if not matrix:
+            return 0
+        self.m = len(matrix)
+        self.n = len(matrix[0])
+        ans = 0
+
+        @lru_cache(None)
+        def dfs(i, j):
+            ans = 1
+            for d in self.dirs:
+                x, y = d[0] + i, d[1] + j
+                # matrix[x][y] > matrix[i][j] 表示这一步可以走
+                if 0 <= x < self.m and 0 <= y < self.n and matrix[x][y] > matrix[i][j]:
+                    ans = max(ans, dfs(x, y) + 1)
+            return ans
+
+        for i in range(self.m):
+            for j in range(self.n):
+                ans = max(ans, dfs(i, j))
+        return ans
+```
+
+这里面有一个值得一提的细节就是，我们在 `dfs()`函数中给的 `ans = 1`, 这样做的要在后面`ans = max(ans, dfs(x, y) + 1)`加以区别，两种做法都是可以的。
+
+如果我们还想使用 memo 数组进行缓存，以便于打败更多的人的话，实现可以参考记忆化搜索那篇文档。(实测影响不大)
+
 ### LC841. 钥匙和房间
+
+[841. 钥匙和房间](https://leetcode-cn.com/problems/keys-and-rooms/)
 
 > 有 N 个房间，开始时你位于 0 号房间。每个房间有不同的号码：0，1，2，...，N-1，并且房间里可能有一些钥匙能使你进入下一个房间。
 >
@@ -186,12 +259,14 @@ class SolutionDFS:
 > 你可以自由地在房间之间来回走动。
 >
 > 如果能进入每个房间返回 true，否则返回 false。
->
-> 来源：力扣（LeetCode）
-> 链接：https://leetcode-cn.com/problems/keys-and-rooms
-> 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
-其 DFS 解法如下所示：
+> 输入: [[1],[2],[3],[]]
+>
+> 输出: true
+
+#### DFS 求解
+
+这道题目有 BFS 和 DFS 两种解法，BFS 解法见下文，其 DFS 解法如下所示：
 
 ```python
 class Solution:
@@ -212,7 +287,77 @@ class Solution:
         return num == n
 ```
 
+#### why DFS？
+
+🔴🔴🔴 思考，为什么我们能想到用 DFS 来求解这个问题呢？
+
+1. 当 x 号房间中有 y 号房间的钥匙时，我们就可以从 x 号房间去往 y 号房间。如果我们将这 n 个房间看成有向图中的 n 个节点，那么上述关系就可以看作是图中的 x号点到 y 号点的一条有向边。
+
+2. 这样一来，问题就变成了给定一张有向图，询问**从 0 号节点出发**是否能够到达所有的节点。
+
+3. 类似于这种问题，其实都存在着 BFS 和 DFS 两种解法在。对于 DFS 解法，我们要从一个节点开始向后遍历，每遍历到一个节点，就将访问的数量 +1，最终判断所有可以遍历到的节点计算出来的访问数量是否等于总的房间数量，从而求解该问题。
+
+   也就是说，我们从 0 开始遍历 index，先拿到 0 号房间所有的钥匙，进行遍历，遍历到一个没有进去过的房间，就将遍历的数量 +1，最后一直到无法遍历，判断总的遍历数量即可。
+
+#### 归纳与拓展：DFS 解法两个套路
+
+💌💌💌 拓展，DFS 的两种实现方法
+
+:::tip TIPS
+
+通常而言，DFS 存在两种实现方法：
+
+1. 栈
+2. 递归
+
+:::
+
+我们也可以使用这两种方法来完成这个题目。
+
+首先来看用栈求解，关于栈求解 DFS 问题，要注意栈求解的 DFS 对于节点的遍历顺利不应该敏感。
+
+代码如下所示：
+
+```python
+class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        visited = set()
+        visited.add(0)
+        stack = [0]
+
+        while stack:
+            idx = stack.pop()
+            for key in rooms[idx]:
+                if key not in visited:
+                    visited.add(key)
+                    stack.append(key)
+        return len(rooms) == len(visited)
+```
+
+以 `[[1],[2],[3],[]]` 为例，我们初始化栈，然后每一次将栈顶元素 pop 出来，然后处理栈顶元素，遍历栈顶元素对应的所有房间，最后栈为空的时候，我们如果遍历了所有房间，那么说明我们是可以到达所有房间的。
+
+我们来使用递归求解的话，就变成了我们刚开始的解法，我们可以多参考 DFS 不同的解法，来加深我们的理解，下面列举出一个不同的解法：
+
+```python
+class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        visited = set()
+        visited.add(0)
+        
+        def dfs(i, visited):
+            visited.add(i)
+            for key in rooms[i]:
+                if key not in visited:
+                    visited.add(key)
+                    dfs(key, visited)
+        
+        dfs(0, visited)
+        return len(visited) == len(rooms)
+```
+
 ### LC200 岛屿数量
+
+#### [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
 
 > 给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格，请你计算网格中岛屿的数量。
 >
@@ -220,16 +365,16 @@ class Solution:
 >
 > 此外，你可以假设该网格的四条边均被水包围。
 >
->  
+> 
 >
 > 示例 1：
 >
 > ```
 > 输入：grid = [
->   ["1","1","1","1","0"],
->   ["1","1","0","1","0"],
->   ["1","1","0","0","0"],
->   ["0","0","0","0","0"]
+> ["1","1","1","1","0"],
+> ["1","1","0","1","0"],
+> ["1","1","0","0","0"],
+> ["0","0","0","0","0"]
 > ]
 > ```
 >
@@ -256,18 +401,29 @@ class Solution:
         self.dfs(grid, i, j - 1)
 
     def numIslands(self, grid):
-        count = 0
-
+        # 针对测试用例
         if not grid:
             return count
+
+        count = 0
         
         for i in range(len(grid)):
             for j in range(len(grid[0])):
+                # 注意到可以遍历的再 dfs
                 if grid[i][j] == '1':
                     self.dfs(grid, i, j) # mark the visited
                     count += 1
         return count
 ```
+
+这也是一道可以 DFS、BFS求解的问题，此题目经典程度，值得反复刷！
+
+我们在求解 DFS 题目的时候，要思考，这道题目为什么可以用 DFS 求解？
+
+- 我们将网格看做一个**无向图**，竖直或水平相邻的 1 之间有边相连。
+- 我们将每次遍历过 1 的时候，我们将其更新为 0（或者是什么其他的标记）。
+
+我们也可以把 grid 去掉，解法差距不大，就不在这列举了。
 
 ## BFS
 
@@ -278,6 +434,8 @@ class Solution:
 3. BFS 常用 visited 结构来标记是否走过某段路程，避免走回头路；
 4. BFS 在队列初始化的时候一般会加入将起点加入队列中；
 5. 在写 BFS 前要明确终止条件。
+
+
 
 ### LC111. 二叉树的最小深度
 
@@ -660,7 +818,7 @@ class Solution:
 >
 > 如果小镇存在秘密法官并且可以确定他的身份，请返回该法官的编号。否则，返回 -1。
 >
->  
+> 
 >
 > 示例 1：
 >
@@ -814,7 +972,7 @@ class Solution:
    - ❓❓❓ 如何将一个 list 全部加入 set 中呢？有两种做法:
 
      1. `visited |= set(deadends)`
-     
+
      2. `visited.update(deadends)`
 
      
