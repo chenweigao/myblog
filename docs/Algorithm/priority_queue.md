@@ -1,5 +1,5 @@
 ---
-title: "Algorithm of Priority Queue"
+title: "Algorithm of Priority Queue(Heap)"
 date: 2021-11-29
 tags:
  - algorithm
@@ -7,10 +7,10 @@ categories:
  - Algorithm
 ---
 
-⏸⏸⏹⏹⏯ 优先级队列的原理以及应用。
+ 🟥🟧🟨 优先级队列的原理以及应用。🟩🟪🟫🟨
 
 1. 大根堆
-2. 小根堆
+2. 小根堆（Python 默认）
 
 <!-- more -->
 
@@ -139,5 +139,84 @@ class Solution:
 
 
 
+### LC1439 有序矩阵中的第 k 个最小数组和
+
+[有序矩阵中的第 k 个最小数组和](https://leetcode-cn.com/problems/find-the-kth-smallest-sum-of-a-matrix-with-sorted-rows/)
+
+> 给你一个 m * n 的矩阵 mat，以及一个整数 k ，矩阵中的每一行都以非递减的顺序排列。
+>
+> 你可以从每一行中选出 1 个元素形成一个数组。返回所有可能数组中的第 k 个 最小 数组和。
+>
+> 输入：mat = [[1,3,11],[2,4,6]], k = 5
+>
+> 输出：7
+>
+> 解释：从每一行中选出一个元素，前 k 个和最小的数组分别是：
+>
+> [1,2], [1,4], [3,2], [3,4], [1,6]。其中第 5 个的和是 7 。 
 
 
+
+#### 暴力求解
+
+对于这种题目，我们应当先掌握暴力求解的思路，再对其进行优化。
+
+```python
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        h = matrix[0][:]
+        for row in matrix[1:]:
+            h = sorted([i + j for i in row for j in h])[:k]
+        return h[k - 1]
+```
+
+这个方法是可以 AC 的，我们现在分析一下为什么这个方法是可行的。
+
+我们将所有的可能性全拿出来，然后取前 k 个，最后再拿出来我们想要的元素即可。
+
+主要注意的是，我们每一次在生成 h 的时候，都只截取了前 K 个元素，这是因为后面的元素不再有竞争力（毕竟后面的肯定不是前 k 小的了），基于这个原则，我们每次都生成 k 个元素，最终把矩阵的每一行都遍历过去，得到我们想要的答案。
+
+❓❓❓ why `h = matrix[0][:]`?
+
+比较疑惑，这里为什么要使用这个呢？仔细思考了一下，这段代码的目的是把矩阵的第一行元素复制下来，然后再和剩下的每一行元素加起来，这样会计算到所有的和吗？**我们发现是可以的**：🧡🧡 这个问题很巧妙的给出了一个答案：如何求解多个数组，每一个数组各取一个数字相加，所有可能的和？
+
+举例来说，给定了数组如下：
+
+```python
+matrix = [
+    [1, 4, 7, 10],
+    [2, 3, 5, 9],
+    [1, 1, 12, 13]
+]
+```
+
+我们要从这个数组的每一行元素中取一个元素，如从第一行中取 `1`, 第二行中取 `2`, 第三行中取 `1`, 计算三者的和为 $1 + 2+ 1 = 5$, 以此类推，我们计算出所有可能的和。
+
+按照以前的思路，我们会将这三个数组的所有的排列组合计算出来，再求和，比如说使用 python 的 `itertools.product`:
+
+```python
+def get_all_combines(self, mat: List[List[int]]):
+    res = set()
+    for nums in itertools.product(*mat):
+        res.add(sum(nums))
+
+    return list(res)
+```
+
+我们使用 `set`来防止不必要的重复，先得到所有的组合，再对其进行求和，求和后添加到列表中保存，最终的结果为：$[4, 5, 7, 8, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 31, 32]$。
+
+
+
+如果我们用上述的方法，可以写出如下代码很简单的求出： 
+
+```python
+def get_all_combines2(self, mat: List[List[int]]):
+    h = mat[0][:]
+
+    for nums in mat[1:]:
+        h = sorted([i + j for i in h for j in nums])
+
+    return list(set(h))
+```
+
+其实这种方法也没有避免了重复，但是可以不生成所有的组合可能性，极大减少了内存消耗，值得学习和细细品味！
