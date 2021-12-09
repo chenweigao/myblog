@@ -220,3 +220,30 @@ def get_all_combines2(self, mat: List[List[int]]):
 ```
 
 其实这种方法也没有避免了重复，但是可以不生成所有的组合可能性，极大减少了内存消耗，值得学习和细细品味！
+
+### LC264 丑数II
+
+[264. 丑数 II](https://leetcode-cn.com/problems/ugly-number-ii/)
+
+> 给你一个整数 `n` ，请你找出并返回第 `n` 个 **丑数** 。
+>
+> **丑数** 就是只包含质因数 `2`、`3` 和/或 `5` 的正整数。
+
+这道题目如何与优先级队列联系上呢？我们可以建立一个大小为 n 的堆，然后分别把符合要求的数入堆，最后那个堆顶元素就是我们想要的。我们需要保证堆的大小为 n, 我们初始化堆的初始为 `[1]`, 所以我们循环 `n-1`次保证堆的大小，我们用大顶堆来最后取出堆顶元素即可。
+
+```python
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        seen = {1}
+        heap = [1]
+        factors = (2, 3, 5)
+        for _ in range(n - 1):
+            cur = heapq.heappop(heap)
+            for factor in factors:
+                if (tmp := cur * factor) not in seen:
+                    seen.add(tmp)
+                    heapq.heappush(heap, tmp)
+                    
+        return heapq.heappop(heap)
+```
+
