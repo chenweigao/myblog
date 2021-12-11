@@ -535,3 +535,88 @@ class Solution:
 5. 进阶：
 
    这道题目还存在两种进阶的方式，包括：位运算的优化和枚举，具体可以参考官方题解。
+
+### LC79 单词搜索
+
+[79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
+
+> 给定一个 `m x n` 二维字符网格 `board` 和一个字符串单词 `word` 。如果 `word` 存在于网格中，返回 `true` ；否则，返回 `false` 。
+
+这道题目非常有意思，思考这个题目，我们通常会想到 BFS + 剪枝，这道题目要和回溯关联上，我们需要思考一些问题，以后解决起来这种题目也更加简单从容：
+
+1. 如何开始？我们可以写一些我们比较擅长的，比如说 `board`的某个坐标，是不是合法的，这个坐标的上下左右坐标我们可不可以拿到？
+
+   我们定义寻路问题中基本的方向数组 `directs = [(0, -1), (0, 1), (-1, 0), (1, 0)]`
+
+2. 如果确定使用回溯（或者DFS），那么我们可能会需要一个 `visited`数组进行标记，这是一个二维数组，其初始化方式为：`visited = [[False] * len(board[0]) for _ in len(board)] `,或者在 python 中我们使用更加简单暴力的 set() 来解决。
+
+实现的代码如下：
+
+```python
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        directs = [(0, -1), (0, 1), (-1, 0), (1, 0)]
+
+        def back_track(i, j, k):
+            if word[k] != board[i][j]:
+                return False
+            if k == len(word) - 1:
+                return True
+            visited.add((i, j))
+            for di, dj in directs:
+                newi, newj = i + di, j + dj
+                if 0 <= newi < len(board) and 0 <= newj < len(board[0]):
+                    if (newi, newj) not in visited:
+                        if back_track(newi, newj, k + 1):
+                            return True
+            visited.remove((i, j))
+            return False
+
+        visited = set()
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == word[0]:
+                    if back_track(i, j, 0):
+                        return True
+        return False
+```
+
+我们回溯（或者 DFS）进入的函数有三个参数，`(i, j, k)`, 其中 `k` 表示 word 中的第 k 个字符。
+
+- 我们循环遍历 `board`，直到找到和 `word`第一个字符相等的位置 `(i, j)`, 然后从 `(i, j)`开始回溯；如果没有找到这个第一个字符，则直接返回 `False`。 
+- 我们在写递归的时候要想清楚递归的返回条件，思考剪枝或者退出的条件。
+
+除此之外，我们有一个更容易理解的写法：
+
+```python
+    def exist2(self, board: List[List[str]], word: str) -> bool:
+        def search(i, j, k):
+            # 递归终止条件
+            if k >= len(word):
+                return True
+
+            if i < 0 or j < 0 or i >= len(board) or j >= len(board[0]) \
+                    or board[i][j] != word[k] or (i, j) in visited:
+                return False
+            visited.add((i, j))
+
+            ret = search(i + 1, j, k + 1) or search(i, j + 1, k + 1) \
+                  or search(i - 1, j, k + 1) or search(i, j - 1, k + 1)
+
+            visited.remove((i, j))
+            return ret
+
+        visited = set()
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                res = search(i, j, 0)
+                if res:
+                    return True
+        return False
+```
+
+这个做法的优点在于，方便理解。我们从 (i, j, 0) 开始搜索，而后设置递归的终止条件和错误条件。
+
+`visited.remove((i, j))`是在我们进行了搜索后进行回溯。
+
+这个代码简单易懂，真不错！
