@@ -5,6 +5,7 @@ tags:
  - algorithm
 categories:
  - Algorithm
+
 ---
 
 
@@ -56,7 +57,7 @@ def back_track(path, choices):
 > 输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
 >
 > 来源：力扣（LeetCode）
-> 
+>
 > 链接：https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number
 > 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
 
@@ -349,8 +350,8 @@ class Solution:
 >
 >输出：
 >[[1,1,2],
-> [1,2,1],
-> [2,1,1]]
+>[1,2,1],
+>[2,1,1]]
 
 解法如下：
 
@@ -409,12 +410,12 @@ class Solution:
 >输入：n = 4, k = 2
 >输出：
 >[
->  	[2,4],
->  	[3,4],
->  	[2,3],
->  	[1,2],
->  	[1,3],
->  	[1,4],
+>	[2,4],
+>	[3,4],
+>	[2,3],
+>	[1,2],
+>	[1,3],
+>	[1,4],
 >]
 
 ```python
@@ -639,7 +640,7 @@ if res:
 
 
 > 输入：s = "25525511135"
-> 
+>
 > 输出：["255.255.11.135","255.255.111.35"]
 
 我们要对这个字符串进行分割，但是如何分割是合理的呢？比如说我们第一个点这样分割`25.525511135`, 那么此时 `5525511135`开头的 IP 地址肯定就是非法的了（介于 0~255 之间，这个只有 `52`一种分割方法，后面`25.52.5511135`7 位数要分为 2 部分，已经不可能了），所以这就涉及到一个回溯和剪枝的问题。
@@ -662,12 +663,14 @@ class Solution:
 
         # seg 表示现在到了第几段，start 表示从哪个下标开始的
         def dfs(seg: int, start: int):
+            # 终止条件
             if seg == 4:
                 if start == len(s):
                     ip = ".".join(str(_) for _ in segments)
                     res.append(ip)
                 return
-
+			
+            # 剪枝
             if start >= len(s):
                 return
 
@@ -692,4 +695,100 @@ class Solution:
 这个代码与其说是回溯，不如说是 DFS（这里要说一个概念，回溯就是在一个树形问题上做 DFS，可能会涉及到剪枝）, 但是其有点在于，可以帮助我们很好的去理解这个题目，其本质就是暴力搜索+剪枝。
 
 😍😍😍 有前辈说，回溯问题就是要画图理解，这样会形成方法论，非常实用。
+
+## 例题解析 - 记忆化搜索
+
+### LC140 单词拆分II
+
+[140. 单词拆分 II](https://leetcode-cn.com/problems/word-break-ii/)
+
+很经典的一道回溯题目。
+
+#### DFS 解法
+
+我们先来研究一下自底向上 DFS + 记忆化搜索的解法：
+
+```python
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        return self.dfs(s, wordDict, {})
+
+    def dfs(self, s, word_dict, memo):
+        # 判断是否在缓存中
+        if s in memo:
+            return memo[s]
+        # 循环终止条件
+        if not s:
+            return []
+
+        res = []
+        for word in word_dict:
+            # 剪枝
+            if not s.startswith(word):
+                continue
+
+            if len(s) == len(word):
+                res.append(word)
+            else:
+                result_of_the_rest = self.dfs(s[len(word):], word_dict, memo)
+                for item in result_of_the_rest:
+                    item = word + ' ' + item
+                    res.append(item)
+        memo[s] = res
+        return res
+```
+
+这个解法的难理解之处在于：
+
+1. `if len(s) == len(word)` 这个条件怎么理解？
+
+   我们举例来看，如给出以下的用例：
+
+   >s = "catsanddog"
+   >
+   >wordDict = ["cat", "cats", "and", "sand", "dog"]
+
+   我们期望的输出结果是 `"cats and dog"`和`"cat sand dog"`。
+
+2. 要理解这个方法我们还需要深刻理解递归，就目前而言水平还是有所欠缺。🈚🈚🈚 这个题目的递归不是特别容易理解，可以以后参考。
+
+#### 回溯解法
+
+我们还有一个很经典的回溯解法，这个方法也比较好理解，但是性能上稍微差一点。
+
+```python
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        res = []
+        cur = []
+
+        def back_track(start):
+            # 递归终止条件
+            if start == len(s):
+                res.append(' '.join(cur))
+                return
+
+            for i in range(start, len(s)):
+                word = s[start: i + 1]
+                if word in wordDict:
+                    cur.append(word)
+                    back_track(i + 1)
+                    # cur.remove(word) is not ok
+                    del cur[-1]
+
+        back_track(0)
+        return res
+```
+
+上述代码中有一个细节需要注意，那就是我们在回溯的过程中使用了 `del cur[-1]` 的回溯方式，这样的优点是可以避免单词重复，比如这个用例：
+
+> s = "aaaaaaa"
+>
+> wordDict = ["aaaa", "aa", "a"]
+
+如果用 `remove` 的方式就会产生错误的结果。
+
+当然我们最佳的方式还是使用 `cur.pop()`😀😀😀
+
+还有一点需要注意的是，我们回溯的起点是 `back_track(i + 1)`, 这是因为我们之前已经截取过了 `[start:i]` 这段区间的 word.
 
