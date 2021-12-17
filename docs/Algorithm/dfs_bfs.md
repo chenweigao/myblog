@@ -8,7 +8,6 @@ tags:
 categories:
  - Algorithm
 
-
 ---
 
 📑📑📑 深度优先搜索算法
@@ -181,7 +180,6 @@ class SolutionDFS:
 <template slot="code-python">
   <<< @/docs/.vuepress/code/algorithm/dfs.py
 </template>
-
 
 </RecoDemo>
 
@@ -1114,6 +1112,7 @@ class Solution:
 这道题目有点类似于求解**图的联通分量**。看题目我们知道给定的是一个：
 
 > 给你一个 n x n 的矩阵 `isConnected `，其中 `isConnected[i][j]` = 1 表示第 i 个城市和第 j 个城市直接相连，而 `isConnected[i][j]` = 0 表示二者不直接相连。
+>
 
 也就是说，这个题目我们可以用 DFS 的方法去求解，注意到我们的思路是 for 循环每一行（每一行都表示一个城市），总共有多少行表示总共有多少个城市，然后我们遍历每一个城市都能联通到的城市，将这个城市放入队列，再遍历队列中的城市，一直 BFS 下去，直到最后遍历完（遍历完的条件是 `isConnected[i][j] == 0` 了）。
 
